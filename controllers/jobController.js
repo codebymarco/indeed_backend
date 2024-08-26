@@ -69,6 +69,18 @@ const getSingleJobEmployee = async (req, res) =>{
     }
 }
 
+//get single job
+const getAllApplicantsForEmployer = async (req, res) =>{
+    const _id = req.params.id
+    try{
+        const job = await Job.findById(_id)
+        res.status(200).json(job)
+        console.log(job)
+    }catch(error){
+        res.status(400).json({error : error.message})
+    }
+}
+
 
 module.exports = {
     createJob,
