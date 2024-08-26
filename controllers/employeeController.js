@@ -2,7 +2,7 @@ const User = require('../models/userModel')
 const PdfRes = require('../models/pdfModel')
 const mongoose = require('mongoose')
 
-//get single employer
+//get employee
 const getSingleEmployee = async (req, res) =>{
     const employeeId = req.user._id
     try{
@@ -16,7 +16,7 @@ const getSingleEmployee = async (req, res) =>{
     }
 }
 
-//delete user
+// delete employee
 const deleteEmployee = async (req, res) =>{
     const employeeId = req.user._id
     try{
@@ -30,7 +30,7 @@ const deleteEmployee = async (req, res) =>{
     }
 }
 
-//delete user
+// delete resume
 const deleteCv = async (req, res) =>{
     const employeeId = req.user._id
     try{
@@ -43,6 +43,18 @@ const deleteCv = async (req, res) =>{
         res.status(400).json({error : error.message})
     }
 }
+
+// edit portofolio
+
+// save or hide job
+
+// get user preferences
+
+// get applications
+
+// apply
+
+// reject 
 
 module.exports = {
     getSingleEmployee,

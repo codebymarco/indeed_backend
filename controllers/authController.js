@@ -9,38 +9,128 @@ const createToken = (_id) => {
   return jwt.sign({ _id }, "hellogiysgsh", { expiresIn: "3d" });
 };
 
-//post user
-const createUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (email) {
-    try {
-      if (!email || !password) {
-        throw Error("all fields must be filled");
-      }
-
-      const exists = await User.findOne({ email });
-
-      if (exists) {
-        throw Error("email already exists");
-      }
-
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(password, salt);
-
-      const user = await User.create({ email, password: hash });
-
-      const token = createToken(user._id);
-
-      res.status(200).json({ user, token });
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+// create user employee
+const createUserEmployee = async (req, res) => {
+  const { email, username, password } = req.body;
+  try {
+    if (!email || !password) {
+      throw Error("please fill in email and password");
     }
+
+    const existsemail = await User.findOne({ email });
+    const existsusername = await User.findOne({ username });
+
+    if (existsemail && !existsusername) {
+      throw Error("email already exists");
+    }
+
+    if (!existsemail && existsusername) {
+      throw Error("username already exists");
+    }
+
+    if (existsemail && existsusername) {
+      throw Error("username and email taken");
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await User.create({ email, username, password: hash });
+    const portfolio = await Portfolio.create({
+      user_id: user._id,
+      template: `ONE`,
+      active: true,
+      views: 0,
+      name: "John Doe",
+      about: "Hi I am John Doe and I am a Occupation",
+      links: [
+        {
+          type: "read",
+          label: "email",
+          value: "miguelmarcoramcharan@gmail.com",
+        },
+        {
+          type: "link",
+          label: "facebook",
+          value: "https://youtube.com",
+        },
+      ],
+    });
+
+    console.log(portfolio);
+
+    const token = createToken(user._id);
+
+    res.status(200).json({ user, token, portfolio, username: user.username });
+    console.log(user, token);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    console.log(error.message);
   }
 };
 
-//signin user
-const loginUser = async (req, res) => {
+// create user employer
+const createUserEmployer = async (req, res) => {
+  const { email, username, password } = req.body;
+  try {
+    if (!email || !password) {
+      throw Error("please fill in email and password");
+    }
+
+    const existsemail = await User.findOne({ email });
+    const existsusername = await User.findOne({ username });
+
+    if (existsemail && !existsusername) {
+      throw Error("email already exists");
+    }
+
+    if (!existsemail && existsusername) {
+      throw Error("username already exists");
+    }
+
+    if (existsemail && existsusername) {
+      throw Error("username and email taken");
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await User.create({ email, username, password: hash });
+    const portfolio = await Portfolio.create({
+      user_id: user._id,
+      template: `ONE`,
+      active: true,
+      views: 0,
+      name: "John Doe",
+      about: "Hi I am John Doe and I am a Occupation",
+      links: [
+        {
+          type: "read",
+          label: "email",
+          value: "miguelmarcoramcharan@gmail.com",
+        },
+        {
+          type: "link",
+          label: "facebook",
+          value: "https://youtube.com",
+        },
+      ],
+    });
+
+    console.log(portfolio);
+
+    const token = createToken(user._id);
+
+    res.status(200).json({ user, token, portfolio, username: user.username });
+    console.log(user, token);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    console.log(error.message);
+  }
+};
+
+// login user employee
+const loginUserEmployee = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
@@ -67,46 +157,15 @@ const loginUser = async (req, res) => {
   }
 };
 
-//post user
-const createEmployer = async (req, res) => {
-  const { email, password, companyName, fullName, contactNumber, role } =
-    req.body;
-  try {
-    const exists = await Employer.findOne({ email });
-
-    if (exists) {
-      throw Error("email already exists");
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-
-    const user = await Employer.create({
-      email,
-      password: hash,
-      companyName,
-      fullName,
-      contactNumber,
-      role,
-    });
-
-    const token = createToken(user._id);
-
-    res.status(200).json({ user, token });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-//signin user
-const loginEmployer = async (req, res) => {
+// login user employer
+const loginUserEmployer = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
-      throw Error("all filed required");
+      throw Error("all fields must be filled");
     }
 
-    const user = await Employer.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (!user) {
       throw Error("incorrect email");
@@ -126,27 +185,8 @@ const loginEmployer = async (req, res) => {
   }
 };
 
-//delete employer
-const deleteEmployer = async (req, res) => {
-  const id = req.user._id;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "no such id" });
-  }
-  try {
-    const employer = await Employer.findOneAndDelete({ _id: id });
-    if (!employer) {
-      return res.status(400).json({ error: "employer does not exist" });
-    }
-    res.status(200).json(employer);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 module.exports = {
   createUser,
   loginUser,
   createEmployer,
-  loginEmployer,
-  deleteEmployer,
-};
+  loginEmployer};
