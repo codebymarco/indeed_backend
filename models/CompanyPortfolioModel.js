@@ -1,51 +1,46 @@
 const mongoose = require('mongoose')
-const Employer = require('./employerModel')
 
 const Schema = mongoose.Schema
 
-const jobSchema = new Schema({
-    company_id:{
+const companyPortfolioSchema = new Schema({
+    company_id:{ // reference to user_id
         type: String,
         required: true
     },
-    reciever_email:{
+    photo:{
         type: String,
         required: true
     },
-    title:{
+    name:{
         type: String,
         required: true
     },
-    description:{
+    location:{
         type: String,
         required: true
     },
-    salary:{
+    work_force:{
         type: String,
         required: true
     },
-    type:{
+    website:{
         type: String,
         required: true
     },
-    requirements:{
+    hr_emails:{
         type: Array,
         required: true
     },
-    responsibilities:{
-        type: Array,
-        required: true
-    },
-    work_type:{
-        type: String,
-        required: true
-    },
-    categpries:{
+    contact_no:{
         type: Array,
         required: true
     },
     active:{
         type: Boolean,
+        required: true
+    },
+    recruiter_type:{
+        type: String,
         required: true
     },
     views:{
@@ -55,5 +50,5 @@ const jobSchema = new Schema({
 },
 {timestamps: true})
 
-module.exports = mongoose.model('job', jobSchema)
+module.exports = mongoose.model('companyPortfolio', companyPortfolioSchema)
 
