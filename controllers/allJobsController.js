@@ -40,6 +40,18 @@ const searchJobs = async (req, res) =>{
     }
 }
 
+// write reviewasanonymous
+const EmployerCreateJob = async (req, res) => {
+    const company_id = req.user._id
+    const {company,title,location,shortDescription,description,salary,jobType,noOfCandidates,setUp,duties,requirements} = req.body
+    try{
+        const job = await Job.create({company, title,company_id,location,shortDescription,description,salary,jobType,noOfCandidates,setUp,duties,requirements})
+        res.status(200).json(job)
+    }catch(error){
+        res.status(400).json({error : error.message})
+    }
+}
+
 
 module.exports = {
     getAllJobs,
