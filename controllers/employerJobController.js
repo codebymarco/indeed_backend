@@ -28,7 +28,7 @@ const EmployerGetVacancies = async (req, res) =>{
 const EmployerGetVacancy = async (req, res) =>{
     const _id = req.params.id
     try{
-        const job = await Job.find({_id})
+        const job = await Job.findById(_id)
         res.status(200).json(job)
         console.log(job)
     }catch(error){
@@ -38,11 +38,11 @@ const EmployerGetVacancy = async (req, res) =>{
 
 // Employer Get Applicants
 const EmployerGetApplicants = async (req, res) =>{
-    const _id = req.params.id
+    const company_id = req.user._id
     try{
-        const job = await Job.findById(_id)
-        res.status(200).json(job)
-        console.log(job)
+        const jobs = await Job.find({company_id}).sort({createdAt: -1})
+        res.status(200).json(jobs)
+        console.log(jobs)
     }catch(error){
         res.status(400).json({error : error.message})
     }
