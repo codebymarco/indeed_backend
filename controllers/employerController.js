@@ -1,4 +1,7 @@
 const Employer = require("../models/employerModel");
+const EmployerPortfolio = require("../models/CompanyPortfolioModel");
+const EmployerJobs = require("../models/JobModel");
+const EmployerApplicants = require("../models/ApplicantModel");
 
 // todo: fix the functions to do the proper database queries
 
@@ -107,20 +110,40 @@ const employerCheckPasswordEmployer = async (req, res) => {
 const EmployerGetStats = async (req, res) => {
   const employerId = req.user._id;
 
-  // get portoflio completion count
-  // get applications count
-  // get vacancies cpunt
-  // Employer Get Employer
-
   try {
-    const employer = await Employer.findById({ employerId });
-    if (!employer) {
-      return res.status(400).json({ error: "no such employer" });
+    // Run queries in parallel
+    const [portfolio, jobs, applicants] = await Promise.all([
+      EmployerPortfolio.findOne({ company_id: employerId }),
+      EmployerJobs.find({ company_id: employerId }),
+      EmployerApplicants.find({ company_id: employerId }),
+    ]);
+
+    // If any of the queries returned null or undefined, handle it
+    if (!portfolio || !jobs || !applicants) {
+      return res
+        .status(404)
+        .json({ error: "Data not found for the employer." });
     }
-    res.status(200).json(employer);
+
+    // Calculate portfolio percentage complete if it's dynamic
+    const portfolioPercentageComplete = calculatePortfolioCompletion(portfolio);
+
+    res.status(200).json({
+      jobsCount: jobs.length,
+      applicantsCount: applicants.length,
+      portfolioPercentageComplete: portfolioPercentageComplete,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error fetching employer stats:", error); // Log error for debugging
+    res.status(500).json({ error: "An error occurred while fetching stats." });
   }
+};
+
+// Example function to calculate portfolio completion
+const calculatePortfolioCompletion = (portfolio) => {
+  // Logic to determine percentage complete
+  // This is a placeholder example, replace with your actual calculation
+  return portfolio ? "90%" : "0%";
 };
 
 module.exports = {
@@ -130,5 +153,5 @@ module.exports = {
   EmployerDeleteEmployer,
   employerChangePasswordEmployer,
   employerCheckPasswordEmployer,
-  EmployerGetStats
+  EmployerGetStats,
 };
