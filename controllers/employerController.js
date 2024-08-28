@@ -103,6 +103,26 @@ const employerCheckPasswordEmployer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+const EmployerGetStats = async (req, res) => {
+  const employerId = req.user._id;
+
+  // get portoflio completion count
+  // get applications count
+  // get vacancies cpunt
+  // Employer Get Employer
+
+  try {
+    const employer = await Employer.findById({ employerId });
+    if (!employer) {
+      return res.status(400).json({ error: "no such employer" });
+    }
+    res.status(200).json(employer);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   EmployerGetEmployer,
   EmployerGetPortfolio,
@@ -110,4 +130,5 @@ module.exports = {
   EmployerDeleteEmployer,
   employerChangePasswordEmployer,
   employerCheckPasswordEmployer,
+  EmployerGetStats
 };
