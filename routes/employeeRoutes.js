@@ -1,66 +1,41 @@
-const express = require('express')
-const router = express.Router()
-const PdfRes = require('../models/pdfModel')
-const {getSingleEmployee,deleteEmployee, deleteCv} = require('../controllers/employeeController')
-const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
-let path = require('path');
-const EmployeeAuth = require('../middlewear/requireEmployeeAuth')
-router.use(EmployeeAuth)
-const {applyJob} = require('../controllers/applyJob')
-const {getSingleJobEmployee} = require('../controllers/jobController')
+const express = require("express");
+const router = express.Router();
+const EmployeeAuth = require("../middleware/requireEmployeeAuth");
+const upload = require("../middleware/uploadMiddleware");
+const {
+  EmployeeGet,
+  EditResume,
+  EditPortfolio,
+  GetApplications,
+  EditApplication,
+  GetPortfolio,
+  DeleteAccount,
+  ChangePasswordEmployer,
+  CheckPasswordEmployer,
+  WriteReview,
+  UpdatePreferences,
+  GetPreferences,
+  EmployeeApplyJob,
+  GetStats,
+  uploadCv,
+} = require("../controllers/employeeController");
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'images');
-    },
-    filename: function(req, file, cb) {   
-        cb(null,uuidv4() + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
+router.use(EmployeeAuth);
 
-const fileFilter = (req, file, cb) => {
+// todo: other ep for the other routes
 
-    const allowedFileTypes = ['application/pdf','application/doc','application/docx'];
-    if(allowedFileTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-}
+router.post("/addCvDocument", upload.single("cv"), uploadCv);
 
-let upload = multer({ storage, fileFilter });
+router.get("/getOne", EmployeeGet);
 
-router.post('/addCvDocument',upload.single('cv'), async(req, res) => {
-    const user_id = req.user._id
-    const url = req.protocol + '://' + req.get('host')
-    const pdfCv = url + '/images/' + req.file.filename;
-    const mimetype = req.file.mimetype;
-try{
-    const resume = await PdfRes.create({pdfCv,user_id, mimetype})
-    res.status(200).json(resume)
-    console.log(resume)
-}catch(error){
-    res.status(400).json({error : error.message})
-    console.log(error.message)
-}
-});
+router.delete("/delete", DeleteAccount);
 
+router.delete("/deleteCvDocument", deleteCv);
 
-//get single employer
-router.get('/getOne', getSingleEmployee)
+router.get("/apply/job/:jobId/:companyId", applyJob);
 
-//delete single user
-router.delete('/delete', deleteEmployee)
+router.get("/job/jobinfo/:id", getSingleJobEmployee);
 
-router.delete('/deleteCvDocument', deleteCv)
+router.get("/review/:id");
 
-router.get('/apply/job/:jobId/:companyId', applyJob)
-
-//get single job for an employee
-router.get('/job/jobinfo/:id', getSingleJobEmployee)
-
-
-router.get('/review/:id')
-
-module.exports = router
+module.exports = router;

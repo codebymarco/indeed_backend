@@ -233,6 +233,37 @@ const GetStats = async (req, res) => {
   }
 };
 
-// add all the function to the export below
+// Upload CV
+const uploadCv = async (req, res) => {
+  const user_id = req.user._id;
+  const url = req.protocol + "://" + req.get("host");
+  const pdfCv = url + "/images/" + req.file.filename;
+  const mimetype = req.file.mimetype;
 
-module.exports = {};
+  try {
+    const resume = await PdfRes.create({ pdfCv, user_id, mimetype });
+    res.status(200).json(resume);
+    console.log(resume);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    console.log(error.message);
+  }
+};
+
+module.exports = {
+  EmployeeGet,
+  EditResume,
+  EditPortfolio,
+  GetApplications,
+  EditApplication,
+  GetPortfolio,
+  DeleteAccount,
+  ChangePasswordEmployer,
+  CheckPasswordEmployer,
+  WriteReview,
+  UpdatePreferences,
+  GetPreferences,
+  EmployeeApplyJob,
+  GetStats,
+  uploadCv,
+};
