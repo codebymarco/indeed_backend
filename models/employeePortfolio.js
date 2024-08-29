@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const userPortfolioSchema = new Schema({
+const employeePortfolioSchema = new Schema({
     user_id:{
         type: String,
         required: true
@@ -50,5 +50,5 @@ const userPortfolioSchema = new Schema({
 },
 {timestamps: true})
 
-module.exports = mongoose.model('userPortfolio', userPortfolioSchema)
+module.exports = mongoose.model('employeePortfolio', employeePortfolioSchema)
 

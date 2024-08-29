@@ -1,28 +1,33 @@
-const User = require("../models/userModel");
-const PdfRes = require("../models/pdfModel");
+const User = require("../models/employee");
+const Resume = require("../models/resume");
+const Portfolio = require("../models/employeePortfolio");
+const Job = require("../models/vacancy");
+const Application = require("../models/application");
+const Review = require("../models/review");
+const Preferences = require("../models/preferences");
 
-// todo: fix this page functions
-// todo: fix the databse queries
-
-// Employee Get Employee
-const EmployeeGetEmployee = async (req, res) => {
-  const employeeId = req.user._id;
+// EmployeeGet
+// Done
+const EmployeeGet = async (req, res) => {
+  const id = req.user._id;
   try {
-    const employee = await User.findById({ employeeId });
-    if (!employee) {
-      return res.status(400).json({ error: "no such employee" });
+    const user = await User.findById({ id });
+    if (!user) {
+      return res.status(400).json({ error: "no such user" });
     }
-    res.status(200).json(employee);
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// Employee Edit Resume
-const EmployeeEditResume = async (req, res) => {
-  const _id = req.params.id;
+// EditResume
+// DeleteResume
+// Done
+const EditResume = async (req, res) => {
+  const id = req.params.id;
   try {
-    const project = await Portfolio.findByIdAndUpdate(_id, {
+    const updated = await Resume.findByIdAndUpdate(id, {
       ...req.body,
     });
     res.status(200).json({ message: "edited sucessfully" });
@@ -31,25 +36,12 @@ const EmployeeEditResume = async (req, res) => {
   }
 };
 
-// Employee Delete Resume
-const EmployeeDeleteResume = async (req, res) => {
-  const employeeId = req.user._id;
+// EditPortfolio
+// Done
+const EditPortfolio = async (req, res) => {
+  const id = req.params.id;
   try {
-    const cv = await PdfRes.findOneAndDelete({ user_id: employeeId });
-    if (!cv) {
-      return res.status(400).json({ error: "no cv for this user" });
-    }
-    res.status(200).json(cv);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-// Employee Edit Portfolio
-const EmployeeEditPortfolio = async (req, res) => {
-  const _id = req.params.id;
-  try {
-    const project = await Portfolio.findByIdAndUpdate(_id, {
+    const project = await Portfolio.findByIdAndUpdate(id, {
       ...req.body,
     });
     res.status(200).json({ message: "edited sucessfully" });
@@ -58,23 +50,24 @@ const EmployeeEditPortfolio = async (req, res) => {
   }
 };
 
-// Employee Get Applications
-const EmployeeGetApplicantions = async (req, res) => {
-  const company_id = req.user._id;
+// GetApplications
+// Done
+const GetApplications = async (req, res) => {
+  const user_id = req.user._id;
   try {
-    const jobs = await Job.find({ company_id }).sort({ createdAt: -1 });
-    res.status(200).json(jobs);
-    console.log(jobs);
+    const apps = await Application.find({ user_id }).sort({ createdAt: -1 });
+    res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// Employee Edit Application
-const EmployeeEditApplication = async (req, res) => {
-  const _id = req.params.id;
+// EditApplication
+// Done
+const EditApplication = async (req, res) => {
+  const id = req.params.id;
   try {
-    const project = await Portfolio.findByIdAndUpdate(_id, {
+    const updated = await Application.findByIdAndUpdate(id, {
       ...req.body,
     });
     res.status(200).json({ message: "edited sucessfully" });
@@ -83,36 +76,39 @@ const EmployeeEditApplication = async (req, res) => {
   }
 };
 
-// Employee Get Portfolio
-const EmployeeGetPortfolio = async (req, res) => {
-  const employeeId = req.user._id;
+// GetPortfolio
+// Done
+const GetPortfolio = async (req, res) => {
+  const user_id = req.user._id;
   try {
-    const employee = await User.findById({ employeeId });
-    if (!employee) {
-      return res.status(400).json({ error: "no such employee" });
+    const portfolio = await User.find({ user_id });
+    if (!portfolio) {
+      return res.status(400).json({ error: "no such portfolio" });
     }
-    res.status(200).json(employee);
+    res.status(200).json(portfolio);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// Employee Delete Account
-const EmployeeDeleteAccount = async (req, res) => {
-  const employeeId = req.user._id;
+// Delete Account
+// Done
+const DeleteAccount = async (req, res) => {
+  const _id = req.user._id;
   try {
-    const employee = await User.findOneAndDelete({ _id: employeeId });
-    if (!employee) {
-      return res.status(400).json({ error: "no such employee" });
+    const user = await User.findOneAndDelete({ _id });
+    if (!user) {
+      return res.status(400).json({ error: "no such user" });
     }
-    res.status(200).json(employee);
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// EmployerChangePasswordEmployer
-const EmployerChangePasswordEmployer = async (req, res) => {
+// ChangePasswordEmployer
+// Done
+const ChangePasswordEmployer = async (req, res) => {
   const _id = req.params.id;
   const { password } = req.body;
   try {
@@ -133,8 +129,9 @@ const EmployerChangePasswordEmployer = async (req, res) => {
   }
 };
 
-// EmployerCheckPasswordEmployer
-const EmployerCheckPasswordEmployer = async (req, res) => {
+// CheckPasswordEmployer
+// Done
+const CheckPasswordEmployer = async (req, res) => {
   const _id = req.params.id;
   const { password } = req.body;
   try {
@@ -153,48 +150,28 @@ const EmployerCheckPasswordEmployer = async (req, res) => {
   }
 };
 
-// Employee Write Review
-const EmployeeWriteReview = async (req, res) => {
-  const company_id = req.user._id;
-  const {
-    company,
-    title,
-    location,
-    shortDescription,
-    description,
-    salary,
-    jobType,
-    noOfCandidates,
-    setUp,
-    duties,
-    requirements,
-  } = req.body;
+// WriteReview
+// Done
+const WriteReview = async (req, res) => {
+  const user_id = req.user._id;
+  // const {employer_id, body, rating} = req.body;
   try {
-    const job = await Job.create({
-      company,
-      title,
-      company_id,
-      location,
-      shortDescription,
-      description,
-      salary,
-      jobType,
-      noOfCandidates,
-      setUp,
-      duties,
-      requirements,
+    const review = await Review.create({
+      user_id,
+      ...req.body,
     });
-    res.status(200).json(job);
+    res.status(200).json(review);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// EmployeeUpdatePreferences
-const EmployeeUpdatePreferences = async (req, res) => {
-  const _id = req.params.id;
+// UpdatePreferences
+// Done
+const UpdatePreferences = async (req, res) => {
+  const id = req.params.id;
   try {
-    const project = await Portfolio.findByIdAndUpdate(_id, {
+    const updated = await Preferences.findByIdAndUpdate(id, {
       ...req.body,
     });
     res.status(200).json({ message: "edited sucessfully" });
@@ -203,48 +180,59 @@ const EmployeeUpdatePreferences = async (req, res) => {
   }
 };
 
-// EmployeeGetPreferences
-const EmployeeGetPreferences = async (req, res) => {
-  const company_id = req.user._id;
+// GetPreferences
+// Done
+const GetPreferences = async (req, res) => {
+  const user_id = req.user._id;
   try {
-    const jobs = await Job.find({ company_id }).sort({ createdAt: -1 });
-    res.status(200).json(jobs);
-    console.log(jobs);
+    const preferences = await Preferences.findOne({ user_id });
+    res.status(200).json(preferences);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 // EmployeeApplyJob
+// Todo: what to do here
 const EmployeeApplyJob = async (req, res) => {
   // here we will get the type of applicaton from the body
   // type: email or send portfolio
 };
 
-const EmployeeGetStats = async (req, res) => {
+// GetStats
+// Done
+const GetStats = async (req, res) => {
   const employerId = req.user._id;
 
-  // get portoflio completion count
-  // get applications count
-  // get vacancies cpunt
-  // Employer Get Employer
-
   try {
-    const employer = await Employer.findById({ employerId });
-    if (!employer) {
-      return res.status(400).json({ error: "no such employer" });
+    // Run queries in parallel
+    const [portfolio, jobs, applicants] = await Promise.all([
+      EmployerPortfolio.findOne({ company_id: employerId }),
+      EmployerJobs.find({ company_id: employerId }),
+      EmployerApplicants.find({ company_id: employerId }),
+    ]);
+
+    // If any of the queries returned null or undefined, handle it
+    if (!portfolio || !jobs || !applicants) {
+      return res
+        .status(404)
+        .json({ error: "Data not found for the employer." });
     }
-    res.status(200).json(employer);
+
+    // Calculate portfolio percentage complete if it's dynamic
+    const portfolioPercentageComplete = calculatePortfolioCompletion(portfolio);
+
+    res.status(200).json({
+      jobsCount: jobs.length,
+      applicantsCount: applicants.length,
+      portfolioPercentageComplete: portfolioPercentageComplete,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error fetching employer stats:", error); // Log error for debugging
+    res.status(500).json({ error: "An error occurred while fetching stats." });
   }
 };
 
+// add all the function to the export below
 
-
-module.exports = {
-  getSingleEmployee,
-  deleteEmployee,
-  deleteCv,
-  EmployeeGetStats
-};
+module.exports = {};

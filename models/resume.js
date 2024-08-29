@@ -12,6 +12,10 @@ const resumeSchema = new Schema(
       type: String,
       required: true,
     },
+    deleted: {
+      type: Boolean,
+      required: true,
+    },
     mimetype: {
       type: String,
       required: true,
@@ -20,4 +24,4 @@ const resumeSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("resumeModel", resumeSchema);
+module.exports = mongoose.model("resume", resumeSchema);

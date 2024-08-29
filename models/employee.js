@@ -2,20 +2,16 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const prefSchema = new Schema({
-    user_id:{
+const employeeSchema = new Schema({
+    email:{
         type: String,
         required: true
     },
-    job_id:{
-        type: String,
-        required: true
-    },
-    status:{
+    password:{
         type: String,
         required: true
     },
 },
 {timestamps: true})
 
-module.exports = mongoose.model('preferences', prefSchema)
+module.exports = mongoose.model('employee', employeeSchema)
