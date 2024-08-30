@@ -6,31 +6,23 @@ const Application = require("../models/application");
 const Review = require("../models/review");
 const Preferences = require("../models/preferences");
 
-// EmployeeGet
-// Done
-const EmployeeGet = async (req, res) => {
-  const id = req.user._id;
-  try {
-    const user = await User.findById({ id });
-    if (!user) {
-      return res.status(400).json({ error: "no such user" });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 // EditResume
 // DeleteResume
-// Done
 const EditResume = async (req, res) => {
-  const id = req.params.id;
+  const userId = req.user._id;
   try {
-    const updated = await Resume.findByIdAndUpdate(id, {
-      ...req.body,
-    });
-    res.status(200).json({ message: "edited sucessfully" });
+    const updated = await Resume.findOneAndUpdate(
+      { user_id: userId }, // Find resume by user_id
+      { ...req.body }, // Update with request body
+      { new: true } // Return the updated document
+    );
+
+    if (!updated) {
+      // If no resume is found, return a 404 error
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    res.status(200).json({ message: "Edited successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -39,12 +31,20 @@ const EditResume = async (req, res) => {
 // EditPortfolio
 // Done
 const EditPortfolio = async (req, res) => {
-  const id = req.params.id;
+  const userId = req.params.user_id; // Assuming user_id is passed as a route parameter
   try {
-    const project = await Portfolio.findByIdAndUpdate(id, {
-      ...req.body,
-    });
-    res.status(200).json({ message: "edited sucessfully" });
+    const updated = await Portfolio.findOneAndUpdate(
+      { user_id: userId }, // Find resume by user_id
+      { ...req.body }, // Update with request body
+      { new: true } // Return the updated document
+    );
+
+    if (!updated) {
+      // If no resume is found, return a 404 error
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    res.status(200).json({ message: "Edited successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -79,15 +79,22 @@ const EditApplication = async (req, res) => {
 // GetPortfolio
 // Done
 const GetPortfolio = async (req, res) => {
-  const user_id = req.user._id;
+  const user_id = req.user._id; // Assuming this is the user's ID from authentication middleware
+
   try {
-    const portfolio = await User.find({ user_id });
+    // Assuming user_id is a field in the User model representing a reference to the user
+    const portfolio = await User.findOne({ user_id });
+
     if (!portfolio) {
-      return res.status(400).json({ error: "no such portfolio" });
+      // If no portfolio found for the given user_id, return 404
+      return res.status(404).json({ error: "No such portfolio" });
     }
+
+    // If portfolio found, return it
     res.status(200).json(portfolio);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // Handle unexpected errors with a 500 status
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -251,7 +258,6 @@ const uploadCv = async (req, res) => {
 };
 
 module.exports = {
-  EmployeeGet,
   EditResume,
   EditPortfolio,
   GetApplications,
