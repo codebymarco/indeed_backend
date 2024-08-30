@@ -5,6 +5,7 @@ const Job = require("../models/vacancy");
 const Application = require("../models/application");
 const Review = require("../models/review");
 const Preferences = require("../models/preferences");
+const { createPortfolioInDB } = require("../db/employee");
 
 // EditResume
 // DeleteResume
@@ -157,6 +158,22 @@ const CheckPasswordEmployer = async (req, res) => {
   }
 };
 
+// Controller function for creating a portfolio
+const CreatePortfolio = async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+    // Call the helper function to create the portfolio in the database
+    const portfolio = await createPortfolioInDB(user_id, req.body);
+
+    // Send the created portfolio in the response
+    res.status(200).json(portfolio);
+  } catch (error) {
+    // Handle any errors that occurred during the portfolio creation
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // WriteReview
 // Done
 const WriteReview = async (req, res) => {
@@ -272,4 +289,5 @@ module.exports = {
   EmployeeApplyJob,
   GetStats,
   uploadCv,
+  CreatePortfolio,
 };

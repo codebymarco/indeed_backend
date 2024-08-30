@@ -32,7 +32,7 @@ const employeePortfolioSchema = new Schema({
         required: true
     },
     contact_no:{
-        type: Array,
+        type: String,
         required: true
     },
     active:{
