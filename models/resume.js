@@ -6,7 +6,6 @@ const resumeSchema = new Schema(
   {
     path: {
       type: String,
-      required: true,
     },
     user_id: {
       type: String,
@@ -14,11 +13,9 @@ const resumeSchema = new Schema(
     },
     deleted: {
       type: Boolean,
-      required: true,
     },
     mimetype: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
