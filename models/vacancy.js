@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const Employer = require('./employerModel')
 
 const Schema = mongoose.Schema
 

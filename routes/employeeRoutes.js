@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const EmployeeAuth = require("../middleware/requireEmployeeAuth");
-const upload = require("../middleware/uploadMiddleware");
+const EmployeeAuth = require("../middlewear/requireEmployeeAuth");
+const upload = require("../middlewear/uploadMiddlewear");
 const {
   EmployeeGet,
   EditResume,

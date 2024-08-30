@@ -4,8 +4,8 @@ const Resume = require("../models/resume");
 const Preferences = require("../models/preferences");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Employee = require("../models/employeeModel");
-const Employer = require("../models/employerModel");
+const Employee = require("../models/employee");
+const Employer = require("../models/employer");
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, "indeed", { expiresIn: "3d" });
@@ -149,15 +149,16 @@ const createEmployer = async (req, res) => {
     console.log(error.message);
   }
 };
-// login user employee
-const loginUserEmployee = async (req, res) => {
+
+// loginemployee
+const loginEmployee = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
       throw Error("all fields must be filled");
     }
 
-    const user = await User.findOne({ email });
+    const user = await Employee.findOne({ email });
 
     if (!user) {
       throw Error("incorrect email");
@@ -177,15 +178,15 @@ const loginUserEmployee = async (req, res) => {
   }
 };
 
-// login user employer
-const loginUserEmployer = async (req, res) => {
+// loginemployer
+const loginEmployer = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
       throw Error("all fields must be filled");
     }
 
-    const user = await User.findOne({ email });
+    const user = await Employer.findOne({ email });
 
     if (!user) {
       throw Error("incorrect email");
@@ -206,8 +207,8 @@ const loginUserEmployer = async (req, res) => {
 };
 
 module.exports = {
-  createUser,
-  loginUser,
-  createEmployee,
+  loginEmployee,
   loginEmployer,
+  createEmployee,
+  createEmployer,
 };

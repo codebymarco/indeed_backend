@@ -1,7 +1,4 @@
-const Employer = require('../models/employerModel')
-const mongoose = require('mongoose')
-
-
+const Employer = require('../models/employer')
 
 // get employer
 const getEmployer = async (req, res) =>{

@@ -1,18 +1,21 @@
-const express = require('express')
-const router = express.Router()
-const {createUser, loginUser, createEmployer, loginEmployer} = require('../controllers/authController')
+const express = require("express");
+const {
+  loginEmployee,
+  loginEmployer,
+  createEmployee,
+  createEmployer,
+} = require("../controllers/authController");
+const router = express.Router();
 
+//login
+router.post("/employee/login", loginEmployee);
 
-//login user
-router.post('/employee/login', loginUser)
+//login
+router.post("/employer/login", loginEmployer);
+
+router.post("/employee/create", createEmployee);
 
 //signin user
-router.post('/employee/create', createUser)
+router.post("/employer/create", createEmployer);
 
-router.post('/employer/login', loginEmployer)
-
-//signin user
-router.post('/employer/create', createEmployer)
-
-
-module.exports = router
+module.exports = router;

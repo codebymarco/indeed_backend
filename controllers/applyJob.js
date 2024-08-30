@@ -1,4 +1,4 @@
-const Employer = require('../models/employerModel')
+const Employer = require('../models/employer')
 const User = require('../models/userModel')
 const Pdf = require('../models/pdfModel')
 var nodemailer = require('nodemailer');

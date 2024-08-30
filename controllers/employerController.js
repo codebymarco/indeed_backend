@@ -1,7 +1,7 @@
-const User = require("../models/employerModel");
-const Portfolio = require("../models/CompanyPortfolioModel");
-const Job = require("../models/JobModel");
-const Applicant = require("../models/ApplicantModel");
+const User = require("../models/employer");
+const Portfolio = require("../models/employerPortfolio");
+const Job = require("../models/vacancy");
+const Applicant = require("../models/application");
 
 // Employer Get Portfolio
 const GetPortfolio = async (req, res) => {
