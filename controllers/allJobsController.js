@@ -1,6 +1,5 @@
-const Job = require("../models/JobModel");
-const mongoose = require("mongoose");
-const User = require("../models/userModel");
+const Job = require("../models/vacancy");
+const User = require("../models/employee");
 
 //get single employer
 const getAllJobs = async (req, res) => {

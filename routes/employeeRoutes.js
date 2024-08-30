@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const EmployeeAuth = require("../middlewear/requireEmployeeAuth");
 const upload = require("../middlewear/uploadMiddlewear");
-const {
+/* const {
   EmployeeGet,
   EditResume,
   EditPortfolio,
@@ -37,5 +37,5 @@ router.get("/apply/job/:jobId/:companyId", applyJob);
 router.get("/job/jobinfo/:id", getSingleJobEmployee);
 
 router.get("/review/:id");
-
+ */
 module.exports = router;
