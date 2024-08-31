@@ -2,6 +2,8 @@ const User = require("../models/employer");
 const Portfolio = require("../models/employerPortfolio");
 const Job = require("../models/vacancy");
 const Applicant = require("../models/application");
+const mongoose = require('mongoose')
+
 
 // Employer Get Portfolio
 const GetPortfolio = async (req, res) => {
@@ -147,34 +149,8 @@ const calculatePortfolioCompletion = (portfolio) => {
 // Employer Create Job
 const EmployerCreateJob = async (req, res) => {
   const company_id = req.user._id;
-  const {
-    company,
-    title,
-    location,
-    shortDescription,
-    description,
-    salary,
-    jobType,
-    noOfCandidates,
-    setUp,
-    duties,
-    requirements,
-  } = req.body;
   try {
-    const job = await Job.create({
-      company,
-      title,
-      company_id,
-      location,
-      shortDescription,
-      description,
-      salary,
-      jobType,
-      noOfCandidates,
-      setUp,
-      duties,
-      requirements,
-    });
+    const job = await Job.create({ company_id, ...req.body });
     res.status(200).json(job);
   } catch (error) {
     res.status(400).json({ error: error.message });

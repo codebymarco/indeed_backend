@@ -35,16 +35,16 @@ router.post("/application", EmployerEditApplicant);
 router.get("/application", EmployerGetApplicants);
 
 // Portfolio Routes
-router.put("/portfolio", EditPortfolio);
-router.get("/portfolio", GetPortfolio);
+router.put("/portfolio", EditPortfolio); // postman
+router.get("/portfolio", GetPortfolio); // postman
 router.put("/portfolio/photo", upload.single("cv"), EditPortfolioPhoto);
 
 // Job Routes
-router.delete("/job/:id", EmployerDeleteVacancy);
-router.get("/job", EmployerGetVacancies);
-router.get("/job/:id", EmployerGetVacancy);
-router.post("/job", EmployerCreateJob);
-router.put("/job/:id", EmployerEditVacancy);
+router.delete("/job/:id", EmployerDeleteVacancy); // postman
+router.get("/job", EmployerGetVacancies); // postman
+router.get("/job/:id", EmployerGetVacancy); // postman
+router.post("/job", EmployerCreateJob); // postman
+router.put("/job/:id", EmployerEditVacancy); // postman
 
 // Stats Routes
 router.get("/stats", GetStats); // postman
