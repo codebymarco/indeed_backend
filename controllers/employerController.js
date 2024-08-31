@@ -104,15 +104,17 @@ const employerCheckPasswordEmployer = async (req, res) => {
   }
 };
 
-const EmployerGetStats = async (req, res) => {
-  const employerId = req.user._id;
+// GetStats
+// Done
+const GetStats = async (req, res) => {
+  const employeeId = req.user._id;
 
   try {
     // Run queries in parallel
     const [portfolio, jobs, applicants] = await Promise.all([
-      Portfolio.findOne({ company_id: employerId }),
-      Job.find({ company_id: employerId }),
-      Applicant.find({ company_id: employerId }),
+      Portfolio.findOne({ user_id: employeeId }),
+      Job.find({ user_id: employeeId }),
+      Applicant.find({ employer_id: employeeId }),
     ]);
 
     // If any of the queries returned null or undefined, handle it
@@ -122,8 +124,7 @@ const EmployerGetStats = async (req, res) => {
         .json({ error: "Data not found for the employer." });
     }
 
-    // Calculate portfolio percentage complete if it's dynamic
-    const portfolioPercentageComplete = calculatePortfolioCompletion(portfolio);
+    const portfolioPercentageComplete = 90;
 
     res.status(200).json({
       jobsCount: jobs.length,
@@ -286,7 +287,7 @@ module.exports = {
   EmployerDeleteEmployer,
   employerChangePasswordEmployer,
   employerCheckPasswordEmployer,
-  EmployerGetStats,
+  GetStats,
   EmployerCreateJob,
   EmployerGetVacancies,
   EmployerGetVacancy,
@@ -294,5 +295,5 @@ module.exports = {
   EmployerEditVacancy,
   EmployerDeleteVacancy,
   EmployerEditApplicant,
-  EditPortfolioPhoto
+  EditPortfolioPhoto,
 };

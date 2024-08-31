@@ -20,6 +20,7 @@ const {
   EmployerDeleteVacancy,
   EmployerEditApplicant,
   EditPortfolioPhoto,
+  GetStats,
 } = require("../controllers/employerController");
 
 router.use(EmployerAuth);
@@ -46,6 +47,6 @@ router.post("/job", EmployerCreateJob);
 router.put("/job/:id", EmployerEditVacancy);
 
 // Stats Routes
-router.get("/stats", EmployerGetStats);
+router.get("/stats", GetStats); // postman
 
 module.exports = router;

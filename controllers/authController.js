@@ -79,47 +79,38 @@ const createEmployee = async (req, res) => {
 };
 
 const createEmployer = async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     if (!email || !password) {
       throw Error("Please fill in email and password");
     }
 
-    const existsemail = await Employer.findOne({ email });
-    const existsusername = await Employer.findOne({ username });
+    const existsemail = await Employee.findOne({ email });
 
-    if (existsemail && !existsusername) {
+    if (existsemail) {
       throw Error("Email already exists");
-    }
-
-    if (!existsemail && existsusername) {
-      throw Error("Username already exists");
-    }
-
-    if (existsemail && existsusername) {
-      throw Error("Username and email taken");
     }
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
     // Create User
-    const user = await Employer.create({ email, username, password: hash });
+    const user = await Employer.create({ email, password: hash });
 
     // Create Portfolio for User
     const portfolio = await EmployerPortfolio.create({
-      user_id: user._id,
-      surname: "Doe",
-      name: "John",
+      company_id: user._id.toString(), // Use the user's ID for company_id
+      photo: "https://example.com/photo.jpg", // Assuming a default photo URL
+      name: "John Doe", // Assuming a default name
       location: "Unknown", // Assuming a default value for location
-      about: "Hi, I am John Doe and I am a professional in my field.",
+      work_force: "100-500", // Assuming a default work force range
       website: "https://example.com",
-      skills: ["Skill1", "Skill2"], // Assuming some default skills
-      contact_no: "+123456789", // Assuming a default contact number
+      hr_emails: ["hr@example.com"], // Assuming a default HR email
+      contact_no: ["+123456789"], // Assuming a default contact number
       active: true,
       recruiter_type: "General", // Assuming a default recruiter type
-      views: 0,
+      views: 0
     });
 
     // Create JWT Token
@@ -128,10 +119,7 @@ const createEmployer = async (req, res) => {
     res.status(200).json({
       user,
       token,
-      portfolio,
-      preferences,
-      resume,
-      username: user.username,
+      portfolio
     });
     console.log(user, token);
   } catch (error) {
@@ -139,6 +127,7 @@ const createEmployer = async (req, res) => {
     console.log(error.message);
   }
 };
+
 
 // loginemployee
 const loginEmployee = async (req, res) => {
@@ -148,7 +137,7 @@ const loginEmployee = async (req, res) => {
       throw Error("all fields must be filled");
     }
 
-    const user = await Employee.findOne({ email });
+    const user = await Employer.findOne({ email });
 
     if (!user) {
       throw Error("incorrect email");
