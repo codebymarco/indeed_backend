@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 const EmployeeAuth = require("../middlewear/requireEmployeeAuth");
 const upload = require("../middlewear/uploadMiddlewear");
-/* const {
-  EmployeeGet,
+const {
   EditResume,
   EditPortfolio,
   GetApplications,
-  EditApplication,
   GetPortfolio,
   DeleteAccount,
   ChangePasswordEmployer,
@@ -17,25 +15,43 @@ const upload = require("../middlewear/uploadMiddlewear");
   GetPreferences,
   EmployeeApplyJob,
   GetStats,
-  uploadCv,
+  EditResumeFile,
+  DeleteApplication,
+  CreateApplication,
 } = require("../controllers/employeeController");
 
 router.use(EmployeeAuth);
 
-// todo: other ep for the other routes
+// Resume Routes
+router.put("/resume/file", upload.single("cv"), EditResumeFile);
+router.put("/resume", EditResume);
 
-router.post("/addCvDocument", upload.single("cv"), uploadCv);
+// Account Routes
+router.delete("/account", DeleteAccount);
+router.post("/account/password/check", CheckPasswordEmployer);
+router.post("/account/password/change", ChangePasswordEmployer);
 
-router.get("/getOne", EmployeeGet);
+// Application Routes
+router.delete("/application/:id", DeleteApplication);
+router.post("/application", CreateApplication);
+router.get("/application", GetApplications);
+router.get("/application", GetApplications);
 
-router.delete("/delete", DeleteAccount);
+// Review Routes
+router.post("/review", WriteReview);
 
-router.delete("/deleteCvDocument", deleteCv);
+// Portfolio Routes
+router.put("/portfolio", EditPortfolio);
+router.get("/portfolio", GetPortfolio);
 
-router.get("/apply/job/:jobId/:companyId", applyJob);
+// Stats Routes
+router.get("/stats", GetStats);
 
-router.get("/job/jobinfo/:id", getSingleJobEmployee);
+// Preferences Routes
+router.put("/preferences", UpdatePreferences);
+router.get("/preferences", GetPreferences);
 
-router.get("/review/:id");
- */
+// Apply Job Routes
+router.post("/apply", EmployeeApplyJob);
+
 module.exports = router;

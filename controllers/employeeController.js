@@ -99,6 +99,20 @@ const GetPortfolio = async (req, res) => {
   }
 };
 
+// DeleteApplication
+const DeleteApplication = async (req, res) => {
+  const _id = req.user._id;
+  try {
+    const user = await Application.findOneAndDelete({ _id });
+    if (!user) {
+      return res.status(400).json({ error: "no such user" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // Delete Account
 // Done
 const DeleteAccount = async (req, res) => {
@@ -190,6 +204,20 @@ const WriteReview = async (req, res) => {
   }
 };
 
+// CreateApplication
+const CreateApplication = async (req, res) => {
+  const user_id = req.user._id;
+  try {
+    const review = await Application.create({
+      user_id,
+      ...req.body,
+    });
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // UpdatePreferences
 // Done
 const UpdatePreferences = async (req, res) => {
@@ -258,16 +286,20 @@ const GetStats = async (req, res) => {
 };
 
 // Upload CV
-const uploadCv = async (req, res) => {
+const EditResumeFile = async (req, res) => {
   const user_id = req.user._id;
   const url = req.protocol + "://" + req.get("host");
   const pdfCv = url + "/images/" + req.file.filename;
   const mimetype = req.file.mimetype;
 
   try {
-    const resume = await PdfRes.create({ pdfCv, user_id, mimetype });
-    res.status(200).json(resume);
-    console.log(resume);
+    const updated = await Resume.findOneAndUpdate(
+      { user_id: user_id }, // Find resume by user_id
+      { mimetype: mimetype, path: pdfCv }, // Update with request body
+      { new: true } // Return the updated document
+    );
+    res.status(200).json(updated);
+    console.log(updated);
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.log(error.message);
@@ -288,6 +320,8 @@ module.exports = {
   GetPreferences,
   EmployeeApplyJob,
   GetStats,
-  uploadCv,
+  EditResumeFile,
   CreatePortfolio,
+  DeleteApplication,
+  CreateApplication
 };
