@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middlewear/uploadMiddlewear");
 
-
 const EmployerAuth = require("../middlewear/requireEmployerAuth");
 
 const {
@@ -11,7 +10,6 @@ const {
   EmployerDeleteEmployer,
   employerChangePasswordEmployer,
   employerCheckPasswordEmployer,
-  EmployerGetStats,
   EmployerCreateJob,
   EmployerGetVacancies,
   EmployerGetVacancy,
