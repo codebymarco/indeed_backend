@@ -37,6 +37,8 @@ const createEmployee = async (req, res) => {
       surname: "Doe",
       name: "John",
       location: "Unknown", // Assuming a default value for location
+      age: "29", // Assuming a default value for location
+      occupation: "deeloper", // Assuming a default value for location
       about: "Hi, I am John Doe and I am a professional in my field.",
       website: "https://example.com",
       skills: ["Skill1", "Skill2"], // Assuming some default skills

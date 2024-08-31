@@ -15,6 +15,14 @@ const employeePortfolioSchema = new Schema({
         type: String,
         required: true
     },
+    occupation:{
+        type: String,
+        required: true
+    },
+    age:{
+        type: String,
+        required: true
+    },
     location:{
         type: String,
         required: true
