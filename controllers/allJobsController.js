@@ -23,25 +23,36 @@ const getAllJobs = async (req, res) => {
 const searchJobs = async (req, res) => {
   const searchQuery = req.query.query;
   const location = req.query.location;
-  let queryFilter =
-    searchQuery && searchQuery !== "all"
-      ? {
-          title: {
-            $regex: searchQuery,
-            $options: "i",
-          },
-        }
-      : {};
+
+  // Define the regex filter for text search
+  let queryFilter = searchQuery && searchQuery !== "all"
+    ? {
+        $or: [
+          { title: { $regex: searchQuery, $options: "i" } },
+          { description: { $regex: searchQuery, $options: "i" } },
+          { requirements: { $regex: searchQuery, $options: "i" } },
+          { responsibilities: { $regex: searchQuery, $options: "i" } },
+          { categpries: { $regex: searchQuery, $options: "i" } }
+        ]
+      }
+    : {};
+
+  // Define the filter for location
   let locationFilter = location && location !== "all" ? { location } : {};
+
   try {
+    // Find jobs that match the filters
     const jobs = await Job.find({ ...queryFilter, ...locationFilter }).sort({
       createdAt: -1,
     });
+
+    // Return the jobs in response
     res.status(200).json(jobs);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // NoUserPostReview
 const noUserPostReview = async (req, res) => {

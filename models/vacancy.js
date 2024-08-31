@@ -7,6 +7,10 @@ const jobSchema = new Schema({
         type: String,
         required: true
     },
+    location:{
+        type: String,
+        required: true
+    },
     reciever_email:{
         type: String,
         required: true
