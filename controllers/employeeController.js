@@ -32,7 +32,7 @@ const EditResume = async (req, res) => {
 // EditPortfolio
 // Done
 const EditPortfolio = async (req, res) => {
-  const userId = req.params.user_id; // Assuming user_id is passed as a route parameter
+  const userId = req.user._id; // Assuming user_id is passed as a route parameter
   try {
     const updated = await Portfolio.findOneAndUpdate(
       { user_id: userId }, // Find resume by user_id
@@ -84,7 +84,7 @@ const GetPortfolio = async (req, res) => {
 
   try {
     // Assuming user_id is a field in the User model representing a reference to the user
-    const portfolio = await User.findOne({ user_id });
+    const portfolio = await Portfolio.findOne({ user_id });
 
     if (!portfolio) {
       // If no portfolio found for the given user_id, return 404
@@ -221,12 +221,20 @@ const CreateApplication = async (req, res) => {
 // UpdatePreferences
 // Done
 const UpdatePreferences = async (req, res) => {
-  const id = req.params.id;
+  const userId = req.user._id; // Assuming user_id is passed as a route parameter
   try {
-    const updated = await Preferences.findByIdAndUpdate(id, {
-      ...req.body,
-    });
-    res.status(200).json({ message: "edited sucessfully" });
+    const updated = await Preferences.findOneAndUpdate(
+      { user_id: userId }, // Find resume by user_id
+      { ...req.body }, // Update with request body
+      { new: true } // Return the updated document
+    );
+
+    if (!updated) {
+      // If no resume is found, return a 404 error
+      return res.status(404).json({ message: "Pref not found" });
+    }
+
+    res.status(200).json({ message: "Edited successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -254,14 +262,14 @@ const EmployeeApplyJob = async (req, res) => {
 // GetStats
 // Done
 const GetStats = async (req, res) => {
-  const employerId = req.user._id;
+  const employeeId = req.user._id;
 
   try {
     // Run queries in parallel
     const [portfolio, jobs, applicants] = await Promise.all([
-      EmployerPortfolio.findOne({ company_id: employerId }),
-      EmployerJobs.find({ company_id: employerId }),
-      EmployerApplicants.find({ company_id: employerId }),
+      Portfolio.findOne({ user_id: employeeId }),
+      Job.find({ user_id: employeeId }),
+      Application.find({ user_id: employeeId }),
     ]);
 
     // If any of the queries returned null or undefined, handle it
@@ -271,8 +279,7 @@ const GetStats = async (req, res) => {
         .json({ error: "Data not found for the employer." });
     }
 
-    // Calculate portfolio percentage complete if it's dynamic
-    const portfolioPercentageComplete = calculatePortfolioCompletion(portfolio);
+    const portfolioPercentageComplete = 90;
 
     res.status(200).json({
       jobsCount: jobs.length,
@@ -323,5 +330,5 @@ module.exports = {
   EditResumeFile,
   CreatePortfolio,
   DeleteApplication,
-  CreateApplication
+  CreateApplication,
 };

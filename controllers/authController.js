@@ -12,7 +12,7 @@ const createToken = (_id) => {
 };
 
 const createEmployee = async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     if (!email || !password) {
@@ -20,25 +20,16 @@ const createEmployee = async (req, res) => {
     }
 
     const existsemail = await Employee.findOne({ email });
-    const existsusername = await Employee.findOne({ username });
 
-    if (existsemail && !existsusername) {
+    if (existsemail) {
       throw Error("Email already exists");
-    }
-
-    if (!existsemail && existsusername) {
-      throw Error("Username already exists");
-    }
-
-    if (existsemail && existsusername) {
-      throw Error("Username and email taken");
     }
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
     // Create User
-    const user = await Employee.create({ email, username, password: hash });
+    const user = await Employee.create({ email, password: hash });
 
     // Create Portfolio for User
     const portfolio = await Portfolio.create({
@@ -79,7 +70,6 @@ const createEmployee = async (req, res) => {
       portfolio,
       preferences,
       resume,
-      username: user.username,
     });
     console.log(user, token);
   } catch (error) {

@@ -38,18 +38,18 @@ router.get("/application", GetApplications);
 router.get("/application", GetApplications);
 
 // Review Routes
-router.post("/review", WriteReview);
+router.post("/review", WriteReview); // postman
 
 // Portfolio Routes
-router.put("/portfolio", EditPortfolio);
-router.get("/portfolio", GetPortfolio);
+router.put("/portfolio", EditPortfolio); // postman
+router.get("/portfolio", GetPortfolio); // postman
 
 // Stats Routes
-router.get("/stats", GetStats);
+router.get("/stats", GetStats); // postman
 
 // Preferences Routes
-router.put("/preferences", UpdatePreferences);
-router.get("/preferences", GetPreferences);
+router.put("/preferences", UpdatePreferences); // postman
+router.get("/preferences", GetPreferences); // postman
 
 // Apply Job Routes
 router.post("/apply", EmployeeApplyJob);
