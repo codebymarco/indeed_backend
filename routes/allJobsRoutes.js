@@ -1,11 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const {getAllJobs, searchJobs} = require('../controllers/allJobsController')
+const {getAllJobs, searchJobs, WriteReview} = require('../controllers/allJobsController')
 
 
 router.get('/', getAllJobs)
 
 router.get('/search', searchJobs)
+
+router.post('/review', WriteReview)
+
 
 // todo
 // put the sreahc query in the same one as the /

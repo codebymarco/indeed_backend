@@ -1,5 +1,5 @@
 const Job = require("../models/vacancy");
-const User = require("../models/employee");
+const Review = require("../models/review");
 
 //get single employer
 const getAllJobs = async (req, res) => {
@@ -25,17 +25,18 @@ const searchJobs = async (req, res) => {
   const location = req.query.location;
 
   // Define the regex filter for text search
-  let queryFilter = searchQuery && searchQuery !== "all"
-    ? {
-        $or: [
-          { title: { $regex: searchQuery, $options: "i" } },
-          { description: { $regex: searchQuery, $options: "i" } },
-          { requirements: { $regex: searchQuery, $options: "i" } },
-          { responsibilities: { $regex: searchQuery, $options: "i" } },
-          { categpries: { $regex: searchQuery, $options: "i" } }
-        ]
-      }
-    : {};
+  let queryFilter =
+    searchQuery && searchQuery !== "all"
+      ? {
+          $or: [
+            { title: { $regex: searchQuery, $options: "i" } },
+            { description: { $regex: searchQuery, $options: "i" } },
+            { requirements: { $regex: searchQuery, $options: "i" } },
+            { responsibilities: { $regex: searchQuery, $options: "i" } },
+            { categpries: { $regex: searchQuery, $options: "i" } },
+          ],
+        }
+      : {};
 
   // Define the filter for location
   let locationFilter = location && location !== "all" ? { location } : {};
@@ -53,46 +54,19 @@ const searchJobs = async (req, res) => {
   }
 };
 
-
-// NoUserPostReview
-const noUserPostReview = async (req, res) => {
-  const company_id = req.user._id;
-  const {
-    company,
-    title,
-    location,
-    shortDescription,
-    description,
-    salary,
-    jobType,
-    noOfCandidates,
-    setUp,
-    duties,
-    requirements,
-  } = req.body;
+const WriteReview = async (req, res) => {
   try {
-    const job = await Job.create({
-      company,
-      title,
-      company_id,
-      location,
-      shortDescription,
-      description,
-      salary,
-      jobType,
-      noOfCandidates,
-      setUp,
-      duties,
-      requirements,
+    const review = await Review.create({
+      user_id: "anonymous",
+      ...req.body,
     });
-    res.status(200).json(job);
+    res.status(200).json(review);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 module.exports = {
   getAllJobs,
   searchJobs,
-  noUserPostReview,
+  WriteReview,
 };
