@@ -18,24 +18,25 @@ const {
   EditResumeFile,
   DeleteApplication,
   CreateApplication,
+  GetResume,
 } = require("../controllers/employeeController");
 
 router.use(EmployeeAuth);
 
 // Resume Routes
-router.put("/resume/file", upload.single("cv"), EditResumeFile);
-router.put("/resume", EditResume);
+router.put("/resume/file", upload.single("cv"), EditResumeFile); // todo
+router.put("/resume", EditResume); // postman
+router.get("/resume", GetResume); // postman
 
 // Account Routes
-router.delete("/account", DeleteAccount);
-router.post("/account/password/check", CheckPasswordEmployer);
-router.post("/account/password/change", ChangePasswordEmployer);
+router.delete("/account", DeleteAccount); // postman
+router.post("/account/password/check", CheckPasswordEmployer); // postman
+router.post("/account/password/change", ChangePasswordEmployer); // postman
 
 // Application Routes
-router.delete("/application/:id", DeleteApplication);
-router.post("/application", CreateApplication);
-router.get("/application", GetApplications);
-router.get("/application", GetApplications);
+router.delete("/application/:id", DeleteApplication); // postman
+router.post("/application", CreateApplication); // postman
+router.get("/application", GetApplications); // postman
 
 // Review Routes
 router.post("/review", WriteReview); // postman
@@ -52,6 +53,6 @@ router.put("/preferences", UpdatePreferences); // postman
 router.get("/preferences", GetPreferences); // postman
 
 // Apply Job Routes
-router.post("/apply", EmployeeApplyJob);
+router.post("/apply", EmployeeApplyJob); // todo
 
 module.exports = router;

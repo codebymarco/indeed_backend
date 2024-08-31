@@ -8,6 +8,14 @@ const applicationSchema = new Schema(
       type: String,
       required: true,
     },
+    user_id: {
+      type: String,
+      required: true,
+    },
+    employer_id: {
+      type: String,
+      required: true,
+    },
     job_title: {
       type: String,
       required: true,

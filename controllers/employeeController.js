@@ -77,6 +77,28 @@ const EditApplication = async (req, res) => {
   }
 };
 
+// GetResume
+// Done
+const GetResume = async (req, res) => {
+  const user_id = req.user._id; // Assuming this is the user's ID from authentication middleware
+
+  try {
+    // Assuming user_id is a field in the User model representing a reference to the user
+    const portfolio = await Resume.findOne({ user_id });
+
+    if (!portfolio) {
+      // If no portfolio found for the given user_id, return 404
+      return res.status(404).json({ error: "No such resume" });
+    }
+
+    // If portfolio found, return it
+    res.status(200).json(portfolio);
+  } catch (error) {
+    // Handle unexpected errors with a 500 status
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // GetPortfolio
 // Done
 const GetPortfolio = async (req, res) => {
@@ -101,7 +123,7 @@ const GetPortfolio = async (req, res) => {
 
 // DeleteApplication
 const DeleteApplication = async (req, res) => {
-  const _id = req.user._id;
+  const _id = req.params.id;
   try {
     const user = await Application.findOneAndDelete({ _id });
     if (!user) {
@@ -331,4 +353,5 @@ module.exports = {
   CreatePortfolio,
   DeleteApplication,
   CreateApplication,
+  GetResume
 };
