@@ -8,18 +8,14 @@ const cors = require('cors')
 const authRoutes = require('./routes/authRoutes')
 const employerRoutes = require('./routes/employerRoutes')
 const employeeRoutes = require('./routes/employeeRoutes')
-const employerJobRoutes = require('./routes/jobRoutes')
 const allJobsRoutes = require('./routes/allJobsRoutes')
-const authDeleteRoutes = require('./routes/authDeleteRoutes')
 
 app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use('/api/auth', authRoutes )
-app.use('/api/auth/delete', authDeleteRoutes )
 app.use('/api/employer', employerRoutes )
 app.use('/api/employee', employeeRoutes )
-app.use('/api/employer/jobs', employerJobRoutes )
 app.use('/api/jobs', allJobsRoutes)
 app.use('/images', express.static('images'));
 
