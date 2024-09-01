@@ -3,9 +3,12 @@ const router = express.Router()
 const {getAllJobs, searchJobs, WriteReview} = require('../controllers/allJobsController')
 
 
-router.get('/', getAllJobs)
+// router.get('/', getAllJobs)
 
-router.get('/search', searchJobs)
+// router.get('/search', searchJobs)
+
+router.get('/', searchJobs)
+
 
 router.post('/review', WriteReview)
 
