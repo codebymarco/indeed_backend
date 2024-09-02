@@ -126,6 +126,8 @@ const GetStats = async (req, res) => {
         .json({ error: "Data not found for the employer." });
     }
 
+    console.log('datrta jobs',jobs)
+
     const portfolioPercentageComplete = 90;
 
     res.status(200).json({
