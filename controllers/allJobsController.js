@@ -25,21 +25,22 @@ const searchJobs = async (req, res) => {
   const location = req.query.location;
 
   // Define the regex filter for text search
-  let queryFilter =
-    searchQuery && searchQuery !== "all"
-      ? {
-          $or: [
-            { title: { $regex: searchQuery, $options: "i" } },
-            { description: { $regex: searchQuery, $options: "i" } },
-            { requirements: { $regex: searchQuery, $options: "i" } },
-            { responsibilities: { $regex: searchQuery, $options: "i" } },
-            { categpries: { $regex: searchQuery, $options: "i" } },
-          ],
-        }
-      : {};
+  let queryFilter = searchQuery
+    ? {
+        $or: [
+          { title: { $regex: searchQuery, $options: "i" } },
+          { description: { $regex: searchQuery, $options: "i" } },
+          { requirements: { $regex: searchQuery, $options: "i" } },
+          { responsibilities: { $regex: searchQuery, $options: "i" } },
+          { categories: { $regex: searchQuery, $options: "i" } }, // Corrected typo here
+        ],
+      }
+    : {};
 
   // Define the filter for location
-  let locationFilter = location && location !== "all" ? { location } : {};
+  let locationFilter = location
+    ? { location: { $regex: location, $options: "i" } } // Enhanced to use regex
+    : {};
 
   try {
     // Find jobs that match the filters
@@ -53,6 +54,7 @@ const searchJobs = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const WriteReview = async (req, res) => {
   try {

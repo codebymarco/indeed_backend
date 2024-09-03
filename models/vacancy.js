@@ -39,6 +39,10 @@ const jobSchema = new Schema({
         type: String,
         required: true
     },
+    employment_type:{
+        type: String,
+        required: true
+    },
     categories:{
         type: Array,
         required: true
