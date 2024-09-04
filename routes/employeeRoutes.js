@@ -53,6 +53,6 @@ router.put("/preferences", UpdatePreferences); // postman
 router.get("/preferences", GetPreferences); // postman
 
 // Apply Job Routes
-router.post("/apply", EmployeeApplyJob); // todo
+router.post("/apply", EmployeeApplyJob);
 
 module.exports = router;

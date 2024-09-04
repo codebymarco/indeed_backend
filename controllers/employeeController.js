@@ -277,8 +277,16 @@ const GetPreferences = async (req, res) => {
 // EmployeeApplyJob
 // Todo: what to do here
 const EmployeeApplyJob = async (req, res) => {
-  // here we will get the type of applicaton from the body
-  // type: email or send portfolio
+  const user_id = req.user._id;
+  try {
+    const review = await Application.create({
+      ...req.body,
+      user_id,
+    });
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 // GetStats
@@ -353,5 +361,5 @@ module.exports = {
   CreatePortfolio,
   DeleteApplication,
   CreateApplication,
-  GetResume
+  GetResume,
 };
