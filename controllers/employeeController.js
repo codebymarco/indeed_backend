@@ -309,7 +309,40 @@ const GetStats = async (req, res) => {
         .json({ error: "Data not found for the employer." });
     }
 
-    const portfolioPercentageComplete = 90;
+    let incomplete_count = 8
+    // check for each feld and if its full increment incomplete count
+    if(portfolio.name === ""){
+      incomplete_count = incomplete_count - 1
+    }
+    if(portfolio.surname === ""){
+      incomplete_count = incomplete_count - 1
+
+    }
+    if(portfolio.occupation === ""){
+      incomplete_count = incomplete_count - 1
+
+    }
+    if(portfolio.age === ""){
+      incomplete_count = incomplete_count - 1
+
+    }
+    if(portfolio.location === ""){
+      incomplete_count = incomplete_count - 1
+
+    }
+    if(portfolio.about === ""){
+      incomplete_count = incomplete_count - 1
+
+    }
+    if(portfolio.website === ""){
+      incomplete_count = incomplete_count - 1
+
+    }
+    if(portfolio.skills.length === 0){
+      incomplete_count = incomplete_count - 1
+    }
+
+   const portfolioPercentageComplete = incomplete_count/8 * 100
 
     res.status(200).json({
       jobsCount: jobs.length,
