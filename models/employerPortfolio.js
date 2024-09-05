@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const companyPortfolioSchema = new Schema({
-    company_id:{ // reference to user_id
+    user_id:{ // reference to user_id
         type: String,
         required: true
     },

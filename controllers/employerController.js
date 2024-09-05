@@ -2,11 +2,11 @@ const User = require("../models/employer");
 const Portfolio = require("../models/employerPortfolio");
 const Job = require("../models/vacancy");
 const Applicant = require("../models/application");
-const mongoose = require('mongoose')
-
+const mongoose = require("mongoose");
 
 // Employer Get Portfolio
 const GetPortfolio = async (req, res) => {
+  console.log("request_user", req.user);
   const user_id = req.user._id; // Assuming this is the user's ID from authentication middleware
 
   try {
@@ -115,7 +115,7 @@ const GetStats = async (req, res) => {
     // Run queries in parallel
     const [portfolio, jobs, applicants] = await Promise.all([
       Portfolio.findOne({ user_id: employeeId }),
-      Job.find({ user_id: employeeId }),
+      Job.find({ employer_id: employeeId }),
       Applicant.find({ employer_id: employeeId }),
     ]);
 
@@ -126,7 +126,7 @@ const GetStats = async (req, res) => {
         .json({ error: "Data not found for the employer." });
     }
 
-    console.log('datrta jobs',jobs)
+    console.log("datrta jobs", jobs);
 
     const portfolioPercentageComplete = 90;
 
@@ -152,8 +152,12 @@ const calculatePortfolioCompletion = (portfolio) => {
 const EmployerCreateJob = async (req, res) => {
   const company_id = req.user._id;
   try {
-    const name = await Portfolio.findOne({user_id:company_id})
-    const job = await Job.create({ company_id,company_name:name ,...req.body });
+    const name = await Portfolio.findOne({ user_id: company_id });
+    const job = await Job.create({
+      ...req.body,
+      company_id,
+      company_name: name,
+    });
     res.status(200).json(job);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -162,6 +166,8 @@ const EmployerCreateJob = async (req, res) => {
 
 // Employer Get Vacancies
 const EmployerGetVacancies = async (req, res) => {
+  console.log('request_user', req.user)
+
   const company_id = req.user._id;
   try {
     const jobs = await Job.find({ company_id }).sort({ createdAt: -1 });
@@ -186,9 +192,10 @@ const EmployerGetVacancy = async (req, res) => {
 
 // Employer Get Applicants
 const EmployerGetApplicants = async (req, res) => {
+  console.log("request_user", req.user);
   const company_id = req.user._id;
   try {
-    const jobs = await Applicant.find({ company_id }).sort({ createdAt: -1 });
+    const jobs = await Applicant.find({ employer_id:company_id }).sort({ createdAt: -1 });
     res.status(200).json(jobs);
     console.log(jobs);
   } catch (error) {

@@ -102,7 +102,7 @@ const createEmployer = async (req, res) => {
 
     // Create Portfolio for User
     const portfolio = await EmployerPortfolio.create({
-      company_id: user._id.toString(), // Use the user's ID for company_id
+      user_id: user._id.toString(), // Use the user's ID for company_id
       photo: "https://example.com/photo.jpg", // Assuming a default photo URL
       name: "John Doe", // Assuming a default name
       location: "Unknown", // Assuming a default value for location
