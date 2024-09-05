@@ -80,9 +80,33 @@ const GetJob = async (req, res) => {
   }
 };
 
+const GetEmployer = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const job = await Portfolio.findOne({employer_id:id});
+    res.status(200).json(job);
+    console.log(job);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const GetEmployee = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const job = await Portfolio.findOne({employer_id:id});
+    res.status(200).json(job);
+    console.log(job);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllJobs,
   searchJobs,
   WriteReview,
-  GetJob
+  GetJob,
+  GetEmployee,
+  GetEmployer
 };

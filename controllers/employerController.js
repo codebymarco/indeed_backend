@@ -29,10 +29,12 @@ const GetPortfolio = async (req, res) => {
 // Employer Edit Portfolio Without Photo
 const EditPortfolio = async (req, res) => {
   const userId = req.params.user_id; // Assuming user_id is passed as a route parameter
+  const body = req.body
+  delete body._id;
   try {
     const updated = await Portfolio.findOneAndUpdate(
-      { user_id: userId }, // Find resume by user_id
-      { ...req.body }, // Update with request body
+      { company_id: userId }, // Find resume by user_id
+      { ...body }, // Update with request body
       { new: true } // Return the updated document
     );
 
@@ -116,7 +118,7 @@ const GetStats = async (req, res) => {
     const [portfolio, jobs, applicants] = await Promise.all([
       Portfolio.findOne({ user_id: employeeId }),
       Job.find({ employer_id: employeeId }),
-      Applicant.find({ employer_id: employeeId }),
+      Applicant.find({ employer_id: employeeId, rejected:false }),
     ]);
 
     // If any of the queries returned null or undefined, handle it
@@ -195,7 +197,7 @@ const EmployerGetApplicants = async (req, res) => {
   console.log("request_user", req.user);
   const company_id = req.user._id;
   try {
-    const jobs = await Applicant.find({ employer_id:company_id }).sort({ createdAt: -1 });
+    const jobs = await Applicant.find({ employer_id:company_id, rejected:false }).sort({ createdAt: -1 });
     res.status(200).json(jobs);
     console.log(jobs);
   } catch (error) {

@@ -29,7 +29,7 @@ router.post("/account/password/check", employerCheckPasswordEmployer);
 router.post("/account/password/change", employerChangePasswordEmployer);
 
 // Application Routes
-router.post("/application", EmployerEditApplicant);
+router.put("/application/:id", EmployerEditApplicant);
 router.get("/application", EmployerGetApplicants);
 
 // Portfolio Routes
