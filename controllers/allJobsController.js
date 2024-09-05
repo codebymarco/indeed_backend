@@ -1,5 +1,7 @@
 const Job = require("../models/vacancy");
 const Review = require("../models/review");
+const EmployeePortfolio = require("../models/employeePortfolio");
+const EmployerPortfolio = require("../models/employerPortfolio");
 
 //get single employer
 const getAllJobs = async (req, res) => {
@@ -55,7 +57,6 @@ const searchJobs = async (req, res) => {
   }
 };
 
-
 const WriteReview = async (req, res) => {
   try {
     const review = await Review.create({
@@ -67,7 +68,6 @@ const WriteReview = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const GetJob = async (req, res) => {
   const id = req.params.id;
@@ -83,7 +83,7 @@ const GetJob = async (req, res) => {
 const GetEmployer = async (req, res) => {
   const id = req.params.id;
   try {
-    const job = await Portfolio.findOne({employer_id:id});
+    const job = await EmployerPortfolio.findOne({ employer_id: id });
     res.status(200).json(job);
     console.log(job);
   } catch (error) {
@@ -94,7 +94,7 @@ const GetEmployer = async (req, res) => {
 const GetEmployee = async (req, res) => {
   const id = req.params.id;
   try {
-    const job = await Portfolio.findOne({employer_id:id});
+    const job = await EmployeePortfolio.findOne({ user_id: id });
     res.status(200).json(job);
     console.log(job);
   } catch (error) {
@@ -108,5 +108,5 @@ module.exports = {
   WriteReview,
   GetJob,
   GetEmployee,
-  GetEmployer
+  GetEmployer,
 };
