@@ -7,6 +7,7 @@ const {
   GetJob,
   GetEmployer,
   GetEmployee,
+  GetReviews,
 } = require("../controllers/allJobsController");
 
 // router.get('/', getAllJobs)
@@ -21,5 +22,6 @@ router.get("/employer/portfolio/:id", GetEmployer);
 router.get("/employee/portfolio/:id", GetEmployee);
 
 router.post("/review", WriteReview);
+router.get("/review/:id", GetReviews);
 
 module.exports = router;
