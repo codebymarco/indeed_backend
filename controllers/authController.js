@@ -57,7 +57,7 @@ const createEmployee = async (req, res) => {
 
     // Create Resume for User
     const resume = await Resume.create({
-      path: "", // Assuming a default path for the resume
+      photo: "", // Assuming a default path for the resume
       user_id: user._id,
       deleted: false,
       mimetype: "application/pdf", // Assuming PDF as the default mimetype

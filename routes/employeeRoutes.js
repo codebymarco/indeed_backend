@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const EmployeeAuth = require("../middlewear/requireEmployeeAuth");
-const upload = require("../middlewear/uploadMiddlewear");
 const {
   EditResume,
   EditPortfolio,
@@ -20,11 +19,12 @@ const {
   CreateApplication,
   GetResume,
 } = require("../controllers/employeeController");
+const uploadPhoto = require("../middlewear/uploadMiddlewear");
 
 router.use(EmployeeAuth);
 
 // Resume Routes
-router.put("/resume/file", upload.single("cv"), EditResumeFile); // todo
+router.put("/resume/file", uploadPhoto.single("photo"), EditResumeFile); 
 router.put("/resume", EditResume); // postman
 router.get("/resume", GetResume); // postman
 

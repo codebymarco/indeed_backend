@@ -12,17 +12,17 @@ const storage = multer.diskStorage({
     }
 });
 
-// Define file filter for multer
+// Define file filter for multer to accept image types
 const fileFilter = (req, file, cb) => {
-    const allowedFileTypes = ['application/pdf', 'application/doc', 'application/docx'];
+    const allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/tiff', 'image/bmp', 'image/svg+xml'];
     if (allowedFileTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(null, false);
+        cb(new Error('Invalid file type. Only image files are allowed.'), false);
     }
 };
 
 // Create and export the multer upload middleware
-const upload = multer({ storage, fileFilter });
+const uploadPhoto = multer({ storage, fileFilter });
 
-module.exports = upload;
+module.exports = uploadPhoto;

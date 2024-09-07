@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const resumeSchema = new Schema(
   {
-    path: {
+    photo: {
       type: String,
     },
     user_id: {
