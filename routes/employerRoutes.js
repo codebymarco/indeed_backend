@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewear/uploadMiddlewear");
+const uploadPhoto = require("../middlewear/uploadPhotoMiddlewear");
 
 const EmployerAuth = require("../middlewear/requireEmployerAuth");
 
@@ -35,7 +35,7 @@ router.get("/application", EmployerGetApplicants);
 // Portfolio Routes
 router.put("/portfolio", EditPortfolio); // postman
 router.get("/portfolio", GetPortfolio); // postman
-router.put("/portfolio/photo", upload.single("cv"), EditPortfolioPhoto);
+router.put("/portfolio/photo", uploadPhoto.single("photo"), EditPortfolioPhoto);
 
 // Job Routes
 router.delete("/job/:id", EmployerDeleteVacancy); // postman

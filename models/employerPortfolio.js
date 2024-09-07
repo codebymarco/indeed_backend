@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const companyPortfolioSchema = new Schema({
-    user_id:{ // reference to user_id
+    user_id:{
         type: String,
         required: true
     },
@@ -46,6 +46,9 @@ const companyPortfolioSchema = new Schema({
     views:{
         type: Number,
         required: true
+    },
+    mimetype:{
+        type: String,
     },
 },
 {timestamps: true})

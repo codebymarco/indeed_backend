@@ -252,13 +252,13 @@ const EmployerEditApplicant = async (req, res) => {
 const EditPortfolioPhoto = async (req, res) => {
   const user_id = req.user._id;
   const url = req.protocol + "://" + req.get("host");
-  const pdfCv = url + "/images/" + req.file.filename;
+  const photo = url + "/images/" + req.file.filename;
   const mimetype = req.file.mimetype;
 
   try {
     const updated = await Portfolio.findOneAndUpdate(
       { user_id: user_id }, // Find resume by user_id
-      { mimetype: mimetype, path: pdfCv }, // Update with request body
+      { mimetype: mimetype, photo }, // Update with request body
       { new: true } // Return the updated document
     );
     res.status(200).json(updated);
