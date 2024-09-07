@@ -8,49 +8,27 @@ const employeePortfolioSchema = new Schema({
         required: true
     },
     surname:{
-        type: String,
-        required: true
-    },
+        type: String    },
     name:{
-        type: String,
-        required: true
-    },
+        type: String    },
     occupation:{
-        type: String,
-        required: true
-    },
+        type: String    },
     age:{
-        type: String,
-        required: true
-    },
+        type: String    },
     location:{
-        type: String,
-        required: true
-    },
+        type: String    },
     about:{
-        type: String,
-        required: true
-    },
+        type: String    },
     website:{
-        type: String,
-        required: true
-    },
+        type: String    },
     skills:{
-        type: Array,
-        required: true
-    },
+        type: Array    },
     contact_no:{
-        type: String,
-        required: true
-    },
+        type: String    },
     active:{
-        type: Boolean,
-        required: true
-    },
+        type: Boolean    },
     recruiter_type:{
-        type: String,
-        required: true
-    },
+        type: String    },
     views:{
         type: Number,
         required: true

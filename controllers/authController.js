@@ -34,17 +34,17 @@ const createEmployee = async (req, res) => {
     // Create Portfolio for User
     const portfolio = await Portfolio.create({
       user_id: user._id,
-      surname: "Doe",
-      name: "John",
-      location: "Unknown", // Assuming a default value for location
-      age: "29", // Assuming a default value for location
-      occupation: "deeloper", // Assuming a default value for location
-      about: "Hi, I am John Doe and I am a professional in my field.",
-      website: "https://example.com",
-      skills: ["Skill1", "Skill2"], // Assuming some default skills
-      contact_no: "+123456789", // Assuming a default contact number
+      surname: "",
+      name: "",
+      location: "", // Assuming a default value for location
+      age: "", // Assuming a default value for location
+      occupation: "", // Assuming a default value for location
+      about: "",
+      website: "",
+      skills: [], // Assuming some default skills
+      contact_no: "", // Assuming a default contact number
       active: true,
-      recruiter_type: "General", // Assuming a default recruiter type
+      recruiter_type: "", // Assuming a default recruiter type
       views: 0,
     });
 
