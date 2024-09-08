@@ -117,7 +117,7 @@ const GetStats = async (req, res) => {
     // Run queries in parallel
     const [portfolio, jobs, applicants] = await Promise.all([
       Portfolio.findOne({ user_id: employeeId }),
-      Job.find({ employer_id: employeeId }),
+      Job.find({ company_id: employeeId }),
       Applicant.find({ employer_id: employeeId, rejected:false }),
     ]);
 
