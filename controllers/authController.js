@@ -60,7 +60,7 @@ const createEmployee = async (req, res) => {
       photo: "", // Assuming a default path for the resume
       user_id: user._id,
       deleted: false,
-      mimetype: "application/pdf", // Assuming PDF as the default mimetype
+      mimetype: "", // Assuming PDF as the default mimetype
     });
 
     // Create JWT Token
@@ -139,7 +139,7 @@ const loginEmployee = async (req, res) => {
       throw Error("all fields must be filled");
     }
 
-    const user = await Employer.findOne({ email });
+    const user = await Employee.findOne({ email });
 
     if (!user) {
       throw Error("incorrect email");
