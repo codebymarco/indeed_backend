@@ -7,6 +7,9 @@ const resumeSchema = new Schema(
     photo: {
       type: String,
     },
+    filename: {
+      type: String,
+    },
     user_id: {
       type: String,
       required: true,

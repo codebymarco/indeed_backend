@@ -103,15 +103,15 @@ const createEmployer = async (req, res) => {
     // Create Portfolio for User
     const portfolio = await EmployerPortfolio.create({
       user_id: user._id.toString(), // Use the user's ID for company_id
-      photo: "https://example.com/photo.jpg", // Assuming a default photo URL
-      name: "John Doe", // Assuming a default name
-      location: "Unknown", // Assuming a default value for location
-      work_force: "100-500", // Assuming a default work force range
-      website: "https://example.com",
-      hr_emails: ["hr@example.com"], // Assuming a default HR email
-      contact_no: ["+123456789"], // Assuming a default contact number
+      photo: "", // Assuming a default photo URL
+      name: "", // Assuming a default name
+      location: "", // Assuming a default value for location
+      work_force: "", // Assuming a default work force range
+      website: "",
+      hr_emails: [], // Assuming a default HR email
+      contact_no: [], // Assuming a default contact number
       active: true,
-      recruiter_type: "General", // Assuming a default recruiter type
+      recruiter_type: "", // Assuming a default recruiter type
       views: 0
     });
 

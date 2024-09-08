@@ -309,40 +309,34 @@ const GetStats = async (req, res) => {
         .json({ error: "Data not found for the employer." });
     }
 
-    let incomplete_count = 8
+    let incomplete_count = 8;
     // check for each feld and if its full increment incomplete count
-    if(portfolio.name === ""){
-      incomplete_count = incomplete_count - 1
+    if (portfolio.name === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.surname === ""){
-      incomplete_count = incomplete_count - 1
-
+    if (portfolio.surname === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.occupation === ""){
-      incomplete_count = incomplete_count - 1
-
+    if (portfolio.occupation === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.age === ""){
-      incomplete_count = incomplete_count - 1
-
+    if (portfolio.age === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.location === ""){
-      incomplete_count = incomplete_count - 1
-
+    if (portfolio.location === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.about === ""){
-      incomplete_count = incomplete_count - 1
-
+    if (portfolio.about === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.website === ""){
-      incomplete_count = incomplete_count - 1
-
+    if (portfolio.website === "") {
+      incomplete_count = incomplete_count - 1;
     }
-    if(portfolio.skills.length === 0){
-      incomplete_count = incomplete_count - 1
+    if (portfolio.skills.length === 0) {
+      incomplete_count = incomplete_count - 1;
     }
 
-   const portfolioPercentageComplete = incomplete_count/8 * 100
+    const portfolioPercentageComplete = (incomplete_count / 8) * 100;
 
     res.status(200).json({
       jobsCount: jobs.length,
@@ -360,11 +354,12 @@ const EditResumeFile = async (req, res) => {
   const url = req.protocol + "://" + req.get("host");
   const photo = url + "/images/" + req.file.filename;
   const mimetype = req.file.mimetype;
+  const filename = req.file.filename;
 
   try {
     const updated = await Resume.findOneAndUpdate(
       { user_id: user_id }, // Find resume by user_id
-      { mimetype: mimetype, photo }, // Update with request body
+      { mimetype: mimetype, photo, filename }, // Update with request body
       { new: true } // Return the updated document
     );
     res.status(200).json(updated);
