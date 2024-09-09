@@ -123,6 +123,25 @@ const GetReviews = async (req, res) => {
   }
 };
 
+const GetJobTitlesAndCategories = async (req, res) => {
+  try {
+    // Fetch all jobs and select only the title and categories fields
+    const jobs = await Job.find({}, 'title categories');
+
+    // Extract titles and categories into a single array
+    const resultArray = jobs.flatMap(job => [
+      job.title,
+      ...job.categories // Spread the categories array
+    ]);
+
+    // Return the combined array of titles and categories
+    res.status(200).json(resultArray);
+    console.log(resultArray);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllJobs,
   searchJobs,
@@ -131,4 +150,5 @@ module.exports = {
   GetEmployee,
   GetEmployer,
   GetReviews,
+  GetJobTitlesAndCategories
 };

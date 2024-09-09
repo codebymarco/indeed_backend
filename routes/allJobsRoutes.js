@@ -8,6 +8,7 @@ const {
   GetEmployer,
   GetEmployee,
   GetReviews,
+  GetJobTitlesAndCategories,
 } = require("../controllers/allJobsController");
 
 // router.get('/', getAllJobs)
@@ -23,5 +24,8 @@ router.get("/employee/portfolio/:id", GetEmployee);
 
 router.post("/review", WriteReview);
 router.get("/review/:id", GetReviews);
+
+router.get("/suggestions/search", GetJobTitlesAndCategories);
+
 
 module.exports = router;
