@@ -154,11 +154,11 @@ const calculatePortfolioCompletion = (portfolio) => {
 const EmployerCreateJob = async (req, res) => {
   const company_id = req.user._id;
   try {
-    const name = await Portfolio.findOne({ user_id: company_id });
+    const name = await User.findOne({ id: company_id });
     const job = await Job.create({
       ...req.body,
       company_id,
-      company_name: name,
+      company_name: name.name,
     });
     res.status(200).json(job);
   } catch (error) {
