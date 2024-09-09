@@ -84,6 +84,9 @@ const GetEmployer = async (req, res) => {
   const id = req.params.id;
   try {
     const job = await EmployerPortfolio.findOne({ user_id: id });
+    if (!job.active) {
+      throw Error("portfolio not active");
+    }
     res.status(200).json(job);
     console.log(job);
   } catch (error) {
@@ -95,6 +98,9 @@ const GetEmployee = async (req, res) => {
   const id = req.params.id;
   try {
     const job = await EmployeePortfolio.findOne({ user_id: id });
+    if (!job.active) {
+      throw Error("portfolio not active");
+    }
     res.status(200).json(job);
     console.log(job);
   } catch (error) {
@@ -105,7 +111,7 @@ const GetEmployee = async (req, res) => {
 const GetReviews = async (req, res) => {
   const id = req.params.id;
   try {
-    const job = await Review.find({employer_id:id});
+    const job = await Review.find({ employer_id: id });
     res.status(200).json(job);
     console.log(job);
   } catch (error) {
@@ -120,5 +126,5 @@ module.exports = {
   GetJob,
   GetEmployee,
   GetEmployer,
-  GetReviews
+  GetReviews,
 };
