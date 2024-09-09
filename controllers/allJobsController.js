@@ -46,7 +46,11 @@ const searchJobs = async (req, res) => {
 
   try {
     // Find jobs that match the filters
-    const jobs = await Job.find({ ...queryFilter, ...locationFilter }).sort({
+    const jobs = await Job.find({
+      ...queryFilter,
+      ...locationFilter,
+      active: true,
+    }).sort({
       createdAt: -1,
     });
 
