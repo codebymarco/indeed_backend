@@ -24,7 +24,7 @@ const getAllJobs = async (req, res) => {
 
 const searchJobs = async (req, res) => {
   const searchQuery = req.query.query;
-  const location = req.query.location;
+  const location = req.query.location; // Expecting an array of strings
 
   // Define the regex filter for text search
   let queryFilter = searchQuery
@@ -34,15 +34,20 @@ const searchJobs = async (req, res) => {
           { description: { $regex: searchQuery, $options: "i" } },
           { requirements: { $regex: searchQuery, $options: "i" } },
           { responsibilities: { $regex: searchQuery, $options: "i" } },
-          { categories: { $regex: searchQuery, $options: "i" } }, // Corrected typo here
+          { categories: { $regex: searchQuery, $options: "i" } },
         ],
       }
     : {};
 
   // Define the filter for location
-  let locationFilter = location
-    ? { location: { $regex: location, $options: "i" } } // Enhanced to use regex
-    : {};
+  let locationFilter =
+    location && Array.isArray(location)
+      ? {
+          location: {
+            $in: location.map((loc) => new RegExp(loc, "i")), // Convert each location string to a regex
+          },
+        }
+      : {};
 
   try {
     // Find jobs that match the filters
@@ -126,12 +131,12 @@ const GetReviews = async (req, res) => {
 const GetJobTitlesAndCategories = async (req, res) => {
   try {
     // Fetch all jobs and select only the title and categories fields
-    const jobs = await Job.find({}, 'title categories');
+    const jobs = await Job.find({}, "title categories");
 
     // Extract titles and categories into a single array
-    const resultArray = jobs.flatMap(job => [
+    const resultArray = jobs.flatMap((job) => [
       job.title,
-      ...job.categories // Spread the categories array
+      ...job.categories, // Spread the categories array
     ]);
 
     // Return the combined array of titles and categories
@@ -150,5 +155,5 @@ module.exports = {
   GetEmployee,
   GetEmployer,
   GetReviews,
-  GetJobTitlesAndCategories
+  GetJobTitlesAndCategories,
 };
