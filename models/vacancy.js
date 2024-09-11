@@ -12,7 +12,7 @@ const jobSchema = new Schema(
       type: String,
     },
     location: {
-      type: String,
+      type: Array,
     },
     reciever_email: {
       type: String,

@@ -24,7 +24,15 @@ const getAllJobs = async (req, res) => {
 
 const searchJobs = async (req, res) => {
   const searchQuery = req.query.query;
-  const location = req.query.location; // Expecting an array of strings
+  const locationArray = req.query.location; // Expecting an array of strings
+
+  // Convert location to an array if it's a comma-separated string
+  let location;
+  if (typeof locationArray === "string") {
+    location = locationArray.split(",");
+  } else {
+    location = [];
+  }
 
   // Define the regex filter for text search
   let queryFilter = searchQuery
@@ -39,15 +47,15 @@ const searchJobs = async (req, res) => {
       }
     : {};
 
-  // Define the filter for location
-  let locationFilter =
-    location && Array.isArray(location)
-      ? {
-          location: {
-            $in: location.map((loc) => new RegExp(loc, "i")), // Convert each location string to a regex
-          },
-        }
-      : {};
+  // Only define the filter for location if it's not empty
+  let locationFilter = {};
+  if (location.length > 0) {
+    locationFilter = {
+      location: {
+        $elemMatch: { $in: location.map((loc) => new RegExp(loc, "i")) },
+      },
+    };
+  }
 
   try {
     // Find jobs that match the filters
@@ -65,6 +73,7 @@ const searchJobs = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const WriteReview = async (req, res) => {
   try {
