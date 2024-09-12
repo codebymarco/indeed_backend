@@ -1,0 +1,68 @@
+    {
+      "road": "Tal",
+      "residential": "Durbach",
+      "hamlet": "Unterspring",
+      "village": "Durbach",
+      "municipality": "Verwaltungsgemeinschaft Offenburg",
+      "county": "Ortenaukreis",
+      "state": "Baden-Württemberg",
+      "ISO3166-2-lvl4": "DE-BW",
+      "postcode": "77770",
+      "country": "Germany",
+      "country_code": "de"
+  }
+
+  {
+    "road": "Che Guevara Road",
+    "suburb": "Greyville",
+    "city": "Durban",
+    "county": "eThekwini Metropolitan Municipality",
+    "state": "KwaZulu-Natal",
+    "ISO3166-2-lvl4": "ZA-KZN",
+    "postcode": "4057",
+    "country": "South Africa",
+    "country_code": "za"
+}
+
+{
+  "tourism": "Puerta del Sol",
+  "road": "Calle de Espoz y Mina",
+  "neighbourhood": "Barrio de los Austrias",
+  "quarter": "Sol",
+  "city_district": "Centro",
+  "city": "Madrid",
+  "state": "Community of Madrid",
+  "ISO3166-2-lvl4": "ES-MD",
+  "postcode": "28013",
+  "country": "Spain",
+  "country_code": "es"
+}
+
+{
+  "amenity": "New York City Hall",
+  "house_number": "260",
+  "road": "Broadway",
+  "quarter": "Lower Manhattan",
+  "neighbourhood": "Civic Center",
+  "suburb": "Manhattan",
+  "county": "New York County",
+  "city": "New York",
+  "state": "New York",
+  "ISO3166-2-lvl4": "US-NY",
+  "postcode": "10000",
+  "country": "United States",
+  "country_code": "us"
+}
+
+{
+  "house_number": "1398",
+  "road": "Nostrand Avenue",
+  "city_block": "Brooklyn Community District 17",
+  "suburb": "Brooklyn",
+  "city": "New York",
+  "state": "New York",
+  "ISO3166-2-lvl4": "US-NY",
+  "postcode": "11226",
+  "country": "United States",
+  "country_code": "us"
+}

@@ -14,6 +14,9 @@ const jobSchema = new Schema(
     location: {
       type: Array,
     },
+    locationHierarchy: {
+      type: Array,
+    },
     reciever_email: {
       type: String,
     },
