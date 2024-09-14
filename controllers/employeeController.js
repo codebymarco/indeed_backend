@@ -229,10 +229,18 @@ const WriteReview = async (req, res) => {
 // CreateApplication
 const CreateApplication = async (req, res) => {
   const user_id = req.user._id;
+
+  /*     "job_title": "Project Manager",
+    "applicant_name": "",
+    "applicant_email": "ndjdjd",
+    "resume_link": "resume path",
+    "portfolio_link": "/profile/employee", */
+
+  console.log("application", req.body);
   try {
     const review = await Application.create({
       user_id,
-      ...req.body,
+      ...req.body
     });
     res.status(200).json(review);
   } catch (error) {
