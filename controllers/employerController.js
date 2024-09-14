@@ -1,8 +1,10 @@
 const User = require("../models/employer");
 const Portfolio = require("../models/employerPortfolio");
+const EmployeePortfolio = require("../models/employeePortfolio");
 const Job = require("../models/vacancy");
 const Applicant = require("../models/application");
 const mongoose = require("mongoose");
+const Resume = require("../models/resume");
 
 // Employer Get Portfolio
 const GetPortfolio = async (req, res) => {
@@ -195,17 +197,43 @@ const EmployerGetVacancy = async (req, res) => {
 const EmployerGetApplicants = async (req, res) => {
   console.log("request_user", req.user);
   const company_id = req.user._id;
+  
   try {
-    const jobs = await Applicant.find({
+    const apps = await Applicant.find({
       employer_id: company_id,
       rejected: false,
     }).sort({ createdAt: -1 });
-    res.status(200).json(jobs);
-    console.log(jobs);
+
+    const newArray = [];
+
+    // Use for...of loop to handle async calls
+    for (const app of apps) {
+      const user_id = app.user_id; // Assuming the app has a user_id field
+      
+      // Fetch portfolio and resume using async/await
+      const portfolio = await EmployeePortfolio.findOne({ user_id });
+      const resume = await Resume.findOne({ user_id });
+
+      const applicant_name = portfolio ? portfolio.name + portfolio.surname : '';
+      const resume_link = resume ? resume.photo : '';
+
+      // Add the new fields to the applicant object
+      const newapp = {
+        ...app._doc, // Spread the existing fields from the app document
+        applicant_name,
+        resume_link,
+      };
+
+      newArray.push(newapp);
+    }
+
+    res.status(200).json(newArray);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 
 // Employer Edit Vacancy
 const EmployerEditVacancy = async (req, res) => {
