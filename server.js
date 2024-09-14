@@ -9,7 +9,7 @@ const authRoutes = require('./routes/authRoutes')
 const employerRoutes = require('./routes/employerRoutes')
 const employeeRoutes = require('./routes/employeeRoutes')
 const allJobsRoutes = require('./routes/allJobsRoutes');
-const { create } = require('./controllers/createController');
+const createRoutes  = require('./routes/createRoutes');
 
 app.use(cors())
 app.use(express.urlencoded({extended: true}))
@@ -18,7 +18,7 @@ app.use('/api/auth', authRoutes )
 app.use('/api/employer', employerRoutes )
 app.use('/api/employee', employeeRoutes )
 app.use('/api/jobs', allJobsRoutes)
-app.use('/api/create', create)
+app.use('/api/create',createRoutes )
 app.use('/images', express.static('images'));
 
 
