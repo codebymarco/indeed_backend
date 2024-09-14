@@ -166,30 +166,24 @@ const jobTitles = [
   "Scrum Master",
 ];
 
-const generateJobs = (company_id, company_name, locations, jobTitleIndex) => {
+const generateJobs = (company_id, company_name, locations) => {
   const jobs = [];
   for (let j = 0; j < 10; j++) {
-    const locationIndex = j % locations.length;
+    const locationIndex = j % locations.length; // Cycle through locations
     const locationData = locations[locationIndex];
-    const jobTitle = jobTitles[(jobTitleIndex + j) % jobTitles.length];
+    const jobTitle = jobTitles[j % jobTitles.length]; // Cycle through job titles
 
     jobs.push({
       company_id,
       company_name,
       location: Object.values(locationData), // Convert location object to array of values
       locationHierarchy: generateLocationHierarchy(locationData),
-      reciever_email: `hr@${company_name
-        .toLowerCase()
-        .replace(/\s+/g, "")}.com`,
+      reciever_email: `hr@${company_name.toLowerCase().replace(/\s+/g, "")}.com`,
       title: jobTitle,
       description: `This is a ${jobTitle} position at ${company_name}.`,
       salary: `$${(j + 1) * 10000} - $${(j + 1) * 12000}`,
       requirements: ["JavaScript", "Node.js", "React", "MongoDB"],
-      responsibilities: [
-        "Develop features",
-        "Fix bugs",
-        "Collaborate with team",
-      ],
+      responsibilities: ["Develop features", "Fix bugs", "Collaborate with team"],
       work_type: "work",
       employment_type: "permanent",
       categories: ["Technology"],
@@ -199,6 +193,7 @@ const generateJobs = (company_id, company_name, locations, jobTitleIndex) => {
   }
   return jobs;
 };
+
 
 module.exports = {
   createMultipleCompanies,
