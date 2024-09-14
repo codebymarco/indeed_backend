@@ -7,16 +7,61 @@ const createMultipleCompanies = async (req, res) => {
   try {
     const companies = [];
     const locations = [
-      { city: "London", state: "England", county: "Greater London", country: "United Kingdom" },
-      { city: "Durban", state: "KwaZulu-Natal", county: "eThekwini Metropolitan Municipality", country: "South Africa" },
-      { city: "Paris", state: "Île-de-France", county: "Paris", country: "France" },
-      { city: "New York", state: "New York", county: "New York County", country: "United States" },
+      {
+        city: "London",
+        state: "England",
+        county: "Greater London",
+        country: "United Kingdom",
+      },
+      {
+        city: "Durban",
+        state: "KwaZulu-Natal",
+        county: "eThekwini Metropolitan Municipality",
+        country: "South Africa",
+      },
+      {
+        city: "Paris",
+        state: "Île-de-France",
+        county: "Paris",
+        country: "France",
+      },
+      {
+        city: "New York",
+        state: "New York",
+        county: "New York County",
+        country: "United States",
+      },
       { city: "Berlin", state: "Berlin", county: "Berlin", country: "Germany" },
-      { city: "Tokyo", state: "Tokyo", county: "Tokyo Metropolis", country: "Japan" },
-      { city: "Sydney", state: "New South Wales", county: "Sydney County", country: "Australia" },
-      { city: "Toronto", state: "Ontario", county: "Toronto", country: "Canada" },
-      { city: "Mumbai", state: "Maharashtra", county: "Mumbai", country: "India" },
-      { city: "Rio de Janeiro", state: "Rio de Janeiro", county: "Rio de Janeiro", country: "Brazil" },
+      {
+        city: "Tokyo",
+        state: "Tokyo",
+        county: "Tokyo Metropolis",
+        country: "Japan",
+      },
+      {
+        city: "Sydney",
+        state: "New South Wales",
+        county: "Sydney County",
+        country: "Australia",
+      },
+      {
+        city: "Toronto",
+        state: "Ontario",
+        county: "Toronto",
+        country: "Canada",
+      },
+      {
+        city: "Mumbai",
+        state: "Maharashtra",
+        county: "Mumbai",
+        country: "India",
+      },
+      {
+        city: "Rio de Janeiro",
+        state: "Rio de Janeiro",
+        county: "Rio de Janeiro",
+        country: "Brazil",
+      },
     ];
 
     const companyNames = [
@@ -57,7 +102,10 @@ const createMultipleCompanies = async (req, res) => {
         location: locations[i % locations.length].city, // Cycle through locations
         work_force: `${(i + 1) * 10}`, // Random work force size
         website: `https://${name.toLowerCase().replace(/\s+/g, "")}.com`,
-        hr_emails: [`hr@${name.toLowerCase().replace(/\s+/g, "")}.com`, `hr2@${name.toLowerCase().replace(/\s+/g, "")}.com`],
+        hr_emails: [
+          `hr@${name.toLowerCase().replace(/\s+/g, "")}.com`,
+          `hr2@${name.toLowerCase().replace(/\s+/g, "")}.com`,
+        ],
         contact_no: [`+123456${i + 1}`, `+654321${i + 1}`],
         active: true,
         recruiter_type: "company",
@@ -115,7 +163,7 @@ const jobTitles = [
   "Systems Analyst",
   "Business Analyst",
   "Technical Lead",
-  "Scrum Master"
+  "Scrum Master",
 ];
 
 const generateJobs = (company_id, company_name, locations, jobTitleIndex) => {
@@ -130,7 +178,9 @@ const generateJobs = (company_id, company_name, locations, jobTitleIndex) => {
       company_name,
       location: Object.values(locationData), // Convert location object to array of values
       locationHierarchy: generateLocationHierarchy(locationData),
-      reciever_email: `hr@${company_name.toLowerCase().replace(/\s+/g, "")}.com`,
+      reciever_email: `hr@${company_name
+        .toLowerCase()
+        .replace(/\s+/g, "")}.com`,
       title: jobTitle,
       description: `This is a ${jobTitle} position at ${company_name}.`,
       salary: `$${(j + 1) * 10000} - $${(j + 1) * 12000}`,
