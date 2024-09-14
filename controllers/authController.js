@@ -111,7 +111,8 @@ const createEmployer = async (req, res) => {
       user_id: user._id.toString(), // Use the user's ID for company_id
       photo: "", // Assuming a default photo URL
       name: name, // Assuming a default name
-      location: "", // Assuming a default value for location
+      location: [], // Assuming a default value for location
+      locationHierarchy: [], // Assuming a default value for location
       work_force: "", // Assuming a default work force range
       website: "",
       hr_emails: [], // Assuming a default HR email

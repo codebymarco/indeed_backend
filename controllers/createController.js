@@ -99,7 +99,7 @@ const createMultipleCompanies = async (req, res) => {
         user_id: user._id.toString(),
         photo: "https://via.placeholder.com/150", // Placeholder photo URL
         name,
-        location: locations[i % locations.length].city, // Cycle through locations
+        location: [locations[i % locations.length].city], // Cycle through locations
         work_force: `${(i + 1) * 10}`, // Random work force size
         website: `https://${name.toLowerCase().replace(/\s+/g, "")}.com`,
         hr_emails: [

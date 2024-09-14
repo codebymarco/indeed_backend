@@ -15,7 +15,10 @@ const companyPortfolioSchema = new Schema(
       type: String,
     },
     location: {
-      type: String,
+      type: Array,
+    },
+    locationHierarchy: {
+      type: Array,
     },
     work_force: {
       type: String,
