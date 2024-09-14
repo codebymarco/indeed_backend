@@ -86,11 +86,44 @@ const createJobs = async (company_id, company_name, locations) => {
   }
 };
 
-const generateJobs = (company_id, company_name, locations) => {
+const generateLocationHierarchy = (locationData) => {
+  return [
+    { attribute: "city", hierarchy_level: 4, value: locationData.city },
+    { attribute: "county", hierarchy_level: 3, value: locationData.county },
+    { attribute: "state", hierarchy_level: 2, value: locationData.state },
+    { attribute: "country", hierarchy_level: 1, value: locationData.country },
+  ];
+};
+
+const jobTitles = [
+  "Software Engineer",
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Developer",
+  "Data Scientist",
+  "DevOps Engineer",
+  "Product Manager",
+  "UX/UI Designer",
+  "QA Engineer",
+  "Cloud Architect",
+  "Security Analyst",
+  "Mobile Developer",
+  "AI/ML Engineer",
+  "IT Support Specialist",
+  "Database Administrator",
+  "Network Engineer",
+  "Systems Analyst",
+  "Business Analyst",
+  "Technical Lead",
+  "Scrum Master"
+];
+
+const generateJobs = (company_id, company_name, locations, jobTitleIndex) => {
   const jobs = [];
   for (let j = 0; j < 10; j++) {
     const locationIndex = j % locations.length;
     const locationData = locations[locationIndex];
+    const jobTitle = jobTitles[(jobTitleIndex + j) % jobTitles.length];
 
     jobs.push({
       company_id,
@@ -98,8 +131,8 @@ const generateJobs = (company_id, company_name, locations) => {
       location: Object.values(locationData), // Convert location object to array of values
       locationHierarchy: generateLocationHierarchy(locationData),
       reciever_email: `hr@${company_name.toLowerCase().replace(/\s+/g, "")}.com`,
-      title: `Job ${j + 1} at ${company_name}`,
-      description: `This is job number ${j + 1} for ${company_name}.`,
+      title: jobTitle,
+      description: `This is a ${jobTitle} position at ${company_name}.`,
       salary: `$${(j + 1) * 10000} - $${(j + 1) * 12000}`,
       requirements: ["JavaScript", "Node.js", "React", "MongoDB"],
       responsibilities: [
@@ -115,15 +148,6 @@ const generateJobs = (company_id, company_name, locations) => {
     });
   }
   return jobs;
-};
-
-const generateLocationHierarchy = (locationData) => {
-  return [
-    { attribute: "city", hierarchy_level: 4, value: locationData.city },
-    { attribute: "county", hierarchy_level: 3, value: locationData.county },
-    { attribute: "state", hierarchy_level: 2, value: locationData.state },
-    { attribute: "country", hierarchy_level: 1, value: locationData.country },
-  ];
 };
 
 module.exports = {
