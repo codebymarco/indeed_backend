@@ -57,7 +57,19 @@ const GetApplications = async (req, res) => {
   const user_id = req.user._id;
   try {
     const apps = await Application.find({ user_id }).sort({ createdAt: -1 });
-    res.status(200).json(apps);
+    const portfolio = await Portfolio.findOne({ user_id: user_id });
+    const applicant_name = portfolio.name + portfolio.surname;
+    const resume = await Resume.findOne({ user_id: user_id });
+    const resume_link = resume.photo;
+    const newArray = [];
+    apps.map((app) => {
+      // get the user_id from the app and add it to the new array
+      const newapp = app;
+      newapp.applicant_name = applicant_name;
+      newapp.resume_link = resume_link;
+      newArray.push(newapp);
+    });
+    res.status(200).json(newArray);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -240,7 +252,7 @@ const CreateApplication = async (req, res) => {
   try {
     const review = await Application.create({
       user_id,
-      ...req.body
+      ...req.body,
     });
     res.status(200).json(review);
   } catch (error) {
