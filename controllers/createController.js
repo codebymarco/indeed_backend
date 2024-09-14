@@ -19,10 +19,33 @@ const createMultipleCompanies = async (req, res) => {
       { city: "Rio de Janeiro", state: "Rio de Janeiro", county: "Rio de Janeiro", country: "Brazil" },
     ];
 
-    for (let i = 1; i <= 20; i++) {
-      const name = `Company${i}`;
-      const password = `pass${i}`;
-      const email = `email${i}@company.com`;
+    const companyNames = [
+      "Tech Innovators",
+      "Blue Ocean Enterprises",
+      "Green Energy Solutions",
+      "Global Ventures",
+      "NextGen Technologies",
+      "Quantum Dynamics",
+      "Solaris Industries",
+      "Evergreen Corp",
+      "Pinnacle Systems",
+      "Zenith Software",
+      "Visionary Labs",
+      "Apex Solutions",
+      "Digital Pioneers",
+      "Skyline Analytics",
+      "Infinity Innovations",
+      "Bright Horizon",
+      "Vanguard Enterprises",
+      "Summit Global",
+      "EchoTech Group",
+      "Nova Systems",
+    ];
+
+    for (let i = 0; i < 20; i++) {
+      const name = companyNames[i];
+      const password = `pass${i + 1}`;
+      const email = `${name.toLowerCase().replace(/\s+/g, "")}@company.com`;
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
       const user = await Employer.create({ email, password: hash, name });
@@ -32,18 +55,17 @@ const createMultipleCompanies = async (req, res) => {
         photo: "https://via.placeholder.com/150", // Placeholder photo URL
         name,
         location: locations[i % locations.length].city, // Cycle through locations
-        work_force: `${i * 10}`, // Random work force size
-        website: `https://company${i}.com`,
-        hr_emails: [`hr${i}@company.com`, `hr${i}2@company.com`],
-        contact_no: [`+123456${i}`, `+654321${i}`],
+        work_force: `${(i + 1) * 10}`, // Random work force size
+        website: `https://${name.toLowerCase().replace(/\s+/g, "")}.com`,
+        hr_emails: [`hr@${name.toLowerCase().replace(/\s+/g, "")}.com`, `hr2@${name.toLowerCase().replace(/\s+/g, "")}.com`],
+        contact_no: [`+123456${i + 1}`, `+654321${i + 1}`],
         active: true,
         recruiter_type: "company",
         views: 0,
       });
 
       const company_id = user._id.toString();
-      const company_name = name;
-      await createJobs(company_id, company_name, locations);
+      await createJobs(company_id, name, locations);
       companies.push({ user, portfolio });
     }
 
@@ -69,13 +91,13 @@ const generateJobs = (company_id, company_name, locations) => {
   for (let j = 0; j < 10; j++) {
     const locationIndex = j % locations.length;
     const locationData = locations[locationIndex];
-    
+
     jobs.push({
       company_id,
       company_name,
       location: Object.values(locationData), // Convert location object to array of values
       locationHierarchy: generateLocationHierarchy(locationData),
-      reciever_email: `hr${company_name.toLowerCase()}@company.com`,
+      reciever_email: `hr@${company_name.toLowerCase().replace(/\s+/g, "")}.com`,
       title: `Job ${j + 1} at ${company_name}`,
       description: `This is job number ${j + 1} for ${company_name}.`,
       salary: `$${(j + 1) * 10000} - $${(j + 1) * 12000}`,
