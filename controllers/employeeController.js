@@ -323,9 +323,6 @@ const GetStats = async (req, res) => {
     if (portfolio.age === "") {
       incomplete_count = incomplete_count - 1;
     }
-    if (portfolio.location === "") {
-      incomplete_count = incomplete_count - 1;
-    }
     if (portfolio.about === "") {
       incomplete_count = incomplete_count - 1;
     }

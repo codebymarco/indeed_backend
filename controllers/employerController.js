@@ -29,7 +29,7 @@ const GetPortfolio = async (req, res) => {
 // Employer Edit Portfolio Without Photo
 const EditPortfolio = async (req, res) => {
   const userId = req.params.user_id; // Assuming user_id is passed as a route parameter
-  const body = req.body
+  const body = req.body;
   delete body._id;
   try {
     const updated = await Portfolio.findOneAndUpdate(
@@ -54,7 +54,6 @@ const EmployerDeleteEmployer = async (req, res) => {
   try {
     const deletedUser = await User.findOneAndDelete({ _id: user_id });
     if (deletedUser) {
-      console.log("resume deleted");
       res.status(200).json(true);
     }
     if (!deletedUser) {
@@ -118,7 +117,7 @@ const GetStats = async (req, res) => {
     const [portfolio, jobs, applicants] = await Promise.all([
       Portfolio.findOne({ user_id: employeeId }),
       Job.find({ company_id: employeeId }),
-      Applicant.find({ employer_id: employeeId, rejected:false }),
+      Applicant.find({ employer_id: employeeId, rejected: false }),
     ]);
 
     // If any of the queries returned null or undefined, handle it
@@ -168,7 +167,7 @@ const EmployerCreateJob = async (req, res) => {
 
 // Employer Get Vacancies
 const EmployerGetVacancies = async (req, res) => {
-  console.log('request_user', req.user)
+  console.log("request_user", req.user);
 
   const company_id = req.user._id;
   try {
@@ -197,7 +196,10 @@ const EmployerGetApplicants = async (req, res) => {
   console.log("request_user", req.user);
   const company_id = req.user._id;
   try {
-    const jobs = await Applicant.find({ employer_id:company_id, rejected:false }).sort({ createdAt: -1 });
+    const jobs = await Applicant.find({
+      employer_id: company_id,
+      rejected: false,
+    }).sort({ createdAt: -1 });
     res.status(200).json(jobs);
     console.log(jobs);
   } catch (error) {
@@ -269,7 +271,23 @@ const EditPortfolioPhoto = async (req, res) => {
   }
 };
 
+// Delete Account
+// Done
+const DeleteAccount = async (req, res) => {
+  const _id = req.user._id;
+  try {
+    const user = await User.findOneAndDelete({ _id });
+    if (!user) {
+      return res.status(400).json({ error: "no such user" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
+  DeleteAccount,
   GetPortfolio,
   EditPortfolio,
   EmployerDeleteEmployer,
