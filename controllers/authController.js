@@ -142,7 +142,80 @@ const createEmployer = async (req, res) => {
     // Example usage:
     const company_id = user._id.toString(); // Dynamic company_id
     const company_name = name; // Dynamic company_name
-    createJobs(company_id, company_name);
+    const location = [
+      "Galerie des Rois",
+      "6",
+      "Parvis Notre-Dame - Place Jean-Paul II",
+      "Quartier Les Îles",
+      "4th Arrondissement",
+      "Paris",
+      "Paris",
+      "FR-75C",
+      "Ile-de-France",
+      "FR-IDF",
+      "Metropolitan France",
+      "75004",
+      "France",
+      "fr",
+    ];
+    const locationHierarchy = [
+      {
+        attribute: "tourism",
+        hierarchy_level: 17,
+        value: "Galerie des Rois",
+      },
+      {
+        attribute: "house_number",
+        hierarchy_level: 14,
+        value: "6",
+      },
+      {
+        attribute: "road",
+        hierarchy_level: 9,
+        value: "Parvis Notre-Dame - Place Jean-Paul II",
+      },
+      {
+        attribute: "city_block",
+        hierarchy_level: 15,
+        value: "Quartier Les Îles",
+      },
+      {
+        attribute: "suburb",
+        hierarchy_level: 5,
+        value: "4th Arrondissement",
+      },
+      {
+        attribute: "city_district",
+        hierarchy_level: 8,
+        value: "Paris",
+      },
+      {
+        attribute: "city",
+        hierarchy_level: 4,
+        value: "Paris",
+      },
+      {
+        attribute: "state",
+        hierarchy_level: 2,
+        value: "Ile-de-France",
+      },
+      {
+        attribute: "postcode",
+        hierarchy_level: 18,
+        value: "75004",
+      },
+      {
+        attribute: "country",
+        hierarchy_level: 1,
+        value: "France",
+      },
+      {
+        attribute: "country_code",
+        hierarchy_level: 20,
+        value: "fr",
+      },
+    ];
+    createJobs(company_id, company_name, location, locationHierarchy);
 
     // Create JWT Token
     const token = createToken(user._id);
@@ -215,9 +288,19 @@ const loginEmployer = async (req, res) => {
   }
 };
 
-const createJobs = async (company_id, company_name) => {
+const createJobs = async (
+  company_id,
+  company_name,
+  location,
+  locationHierarchy
+) => {
   try {
-    const jobs = generateJobs(company_id, company_name);
+    const jobs = generateJobs(
+      company_id,
+      company_name,
+      location,
+      locationHierarchy
+    );
 
     // Use the Job.create method to insert the array of jobs into the database
     const createdJobs = await Job.create(jobs);
@@ -228,12 +311,18 @@ const createJobs = async (company_id, company_name) => {
   }
 };
 
-const generateJobs = (company_id, company_name) => {
+const generateJobs = (
+  company_id,
+  company_name,
+  location,
+  locationHierarchy
+) => {
   return [
     {
       company_id,
       company_name,
-      location: "San Francisco, CA",
+      location,
+      locationHierarchy,
       reciever_email: "hr@techinnovators.com",
       title: "Software Engineer",
       description:
@@ -254,7 +343,9 @@ const generateJobs = (company_id, company_name) => {
     {
       company_id,
       company_name,
-      location: "Austin, TX",
+      location,
+      locationHierarchy,
+
       reciever_email: "hr@techinnovators.com",
       title: "Data Analyst",
       description: "Analyze company data and provide insights to stakeholders.",
@@ -274,7 +365,9 @@ const generateJobs = (company_id, company_name) => {
     {
       company_id,
       company_name,
-      location: "New York, NY",
+      location,
+      locationHierarchy,
+
       reciever_email: "hr@techinnovators.com",
       title: "Project Manager",
       description:
@@ -295,7 +388,9 @@ const generateJobs = (company_id, company_name) => {
     {
       company_id,
       company_name,
-      location: "Remote",
+      location,
+      locationHierarchy,
+
       reciever_email: "hr@techinnovators.com",
       title: "DevOps Engineer",
       description:
@@ -316,7 +411,9 @@ const generateJobs = (company_id, company_name) => {
     {
       company_id,
       company_name,
-      location: "Chicago, IL",
+      location,
+      locationHierarchy,
+
       reciever_email: "hr@techinnovators.com",
       title: "UX/UI Designer",
       description:
@@ -337,7 +434,9 @@ const generateJobs = (company_id, company_name) => {
     {
       company_id,
       company_name,
-      location: "Boston, MA",
+      location,
+      locationHierarchy,
+
       reciever_email: "hr@techinnovators.com",
       title: "Marketing Specialist",
       description:
