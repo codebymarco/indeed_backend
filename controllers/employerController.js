@@ -5,6 +5,7 @@ const Job = require("../models/vacancy");
 const Applicant = require("../models/application");
 const mongoose = require("mongoose");
 const Resume = require("../models/resume");
+const bcrypt = require("bcrypt");
 
 // Employer Get Portfolio
 const GetPortfolio = async (req, res) => {
@@ -69,7 +70,7 @@ const EmployerDeleteEmployer = async (req, res) => {
 
 // EmployerChangePasswordEmployer
 const employerChangePasswordEmployer = async (req, res) => {
-  const _id = req.params.id;
+  const _id =  req.user._id;
   const { password } = req.body;
   try {
     const user = await User.findOne({ _id });
@@ -91,7 +92,7 @@ const employerChangePasswordEmployer = async (req, res) => {
 
 // EmployerCheckPasswordEmployer
 const employerCheckPasswordEmployer = async (req, res) => {
-  const _id = req.params.id;
+  const _id = req.user._id;
   const { password } = req.body;
   try {
     const user = await User.findOne({ _id });
