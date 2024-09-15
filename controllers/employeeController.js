@@ -6,6 +6,7 @@ const Application = require("../models/application");
 const Review = require("../models/review");
 const Preferences = require("../models/preferences");
 const { createPortfolioInDB } = require("../db/employee");
+const bcrypt = require("bcrypt");
 
 // EditResume
 // DeleteResume
@@ -165,7 +166,7 @@ const DeleteAccount = async (req, res) => {
 // ChangePasswordEmployer
 // Done
 const ChangePasswordEmployer = async (req, res) => {
-  const _id = req.params.id;
+  const _id =  req.user._id;;
   const { password } = req.body;
   try {
     const user = await User.findOne({ _id });
@@ -188,7 +189,7 @@ const ChangePasswordEmployer = async (req, res) => {
 // CheckPasswordEmployer
 // Done
 const CheckPasswordEmployer = async (req, res) => {
-  const _id = req.params.id;
+  const _id =  req.user._id;;
   const { password } = req.body;
   try {
     const user = await User.findOne({ _id });
@@ -295,7 +296,6 @@ const GetPreferences = async (req, res) => {
 };
 
 // EmployeeApplyJob
-// Todo: what to do here
 const EmployeeApplyJob = async (req, res) => {
   const user_id = req.user._id;
   try {
