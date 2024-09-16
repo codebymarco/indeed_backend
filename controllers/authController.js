@@ -140,7 +140,7 @@ const createEmployer = async (req, res) => {
     }); */
 
     // Example usage:
-    const company_id = user._id.toString(); // Dynamic company_id
+    /*     const company_id = user._id.toString(); // Dynamic company_id
     const company_name = name; // Dynamic company_name
     const location = [
       "Galerie des Rois",
@@ -215,7 +215,7 @@ const createEmployer = async (req, res) => {
         value: "fr",
       },
     ];
-    createJobs(company_id, company_name, location, locationHierarchy);
+    createJobs(company_id, company_name, location, locationHierarchy); */
 
     // Create JWT Token
     const token = createToken(user._id);
