@@ -62,6 +62,7 @@ const createMultipleCompanies = async (req, res) => {
         county: "Rio de Janeiro",
         country: "Brazil",
       },
+      // Add more locations if needed
     ];
 
     const companyNames = [
@@ -85,9 +86,19 @@ const createMultipleCompanies = async (req, res) => {
       "Summit Global",
       "EchoTech Group",
       "Nova Systems",
+      "Fusion Tech Solutions",
+      "Elite Innovations",
+      "Bright Future Technologies",
+      "Skyline Ventures",
+      "Nova Technologies",
+      "Pinnacle Innovations",
+      "Quantum Enterprises",
+      "Global Horizons",
+      "NextGen Innovations",
+      "Zenith Dynamics",
     ];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) { // Updated to create 30 companies
       const name = companyNames[i];
       const password = `pass${i + 1}`;
       const email = `${name.toLowerCase().replace(/\s+/g, "")}@company.com`;
@@ -164,11 +175,13 @@ const jobTitles = [
   "Business Analyst",
   "Technical Lead",
   "Scrum Master",
+  "Project Manager",
+  "Systems Administrator",
 ];
 
 const generateJobs = (company_id, company_name, locations) => {
   const jobs = [];
-  for (let j = 0; j < 10; j++) {
+  for (let j = 0; j < 20; j++) { // Updated to create 20 jobs per company
     const locationIndex = j % locations.length; // Cycle through locations
     const locationData = locations[locationIndex];
     const jobTitle = jobTitles[j % jobTitles.length]; // Cycle through job titles
@@ -193,7 +206,6 @@ const generateJobs = (company_id, company_name, locations) => {
   }
   return jobs;
 };
-
 
 module.exports = {
   createMultipleCompanies,
